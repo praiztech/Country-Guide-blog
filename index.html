@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Calculator App</title>
+  <meta charset="UTF-8">
+  <meta name="author" content="Praise Agbabiaka">
+  <meta name="description" content="A basic calculator app built with accessibility in mind">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="format-detection" content="telephone=no"> <!-- fixes Edge treating decimal numbers as links -->
+  <script type="text/javascript" src="assets/main.js" defer></script>
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="stylesheet" type="text/css" href="assets/style.css">
+</head>
+<body>
+  <header>
+    <h1>Calculator</h1>
+  </header>
+  <div class="calculator" role="application">
+    <div class="screen" aria-label="displayScreen">
+      <div id="input-display">
+        <div id="A1"></div>
+        <div id="A2"></div>
+        <div id="A3"></div>
+        <div id="A4"></div>
+        <div id="A5"></div>
+        <div id="A6"></div>
+        <div id="A7"></div>
+      </div>
+      <output id="outputt"></output>
+    </div>
+    <div class="keys" aria-label="inputKeys">
+      <button id="delete" class="symbol">&#67;</button>
+      <button id="backspace" class="symbol">&#9003;</button>
+      <button id="divide" class="inputt symbol">&#247;</button> 
+      <button id="times" class="inputt symbol">&#215;</button>
+      <button id="seven" class="inputt number">7</button>
+      <button id="eight" class="inputt number">8</button>
+      <button id="nine" class="inputt number">9</button>
+      <button id="minus" class="inputt symbol">&#8722;</button>
+      <button id="four" class="inputt number">4</button>
+      <button id="five" class="inputt number">5</button>
+      <button id="six" class="inputt number">6</button>
+      <button id="plus" class="inputt symbol">&#43;</button>
+      <button id="one" class="inputt number">1</button>
+      <button id="two" class="inputt number">2</button>
+      <button id="three" class="inputt number">3</button>
+      <button id="zero" class="inputt number">0</button>
+      <button id="period" class="inputt number">&#46;</button>
+      <button id="equals" class="symbol">&#61;</button>
+    </div>
+  </div>
+  <footer>
+    <small>&copy; 2020 PraizTech Inc. All Rights Reserved.</small>
+  </footer>
+</body>
+</html>
