@@ -331,6 +331,10 @@ button.symbol:active, button.number:active {
 }
 
 @media only screen and (max-width:480px) {
+  h1 {
+    font-size: 1.25em;
+  }
+  
   .calculator {
     width: 77.5%;
   }
