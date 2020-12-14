@@ -330,6 +330,22 @@ button.symbol:active, button.number:active {
   grid-row: 5;
 }
 
+@media only screen and (max-width:480px) {
+  .calculator {
+    width: 77.5%;
+  }
+
+  #input-display {
+    width: 100%;
+    height: 30px;
+  }
+
+  #outputt {
+    width: 100%;
+    height: 65px;
+  }
+}
+
 @media only screen and (min-width:600px) {
   #outputt {
     padding-right: 0.7em;
