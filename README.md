@@ -35,7 +35,7 @@ This web application features a light and dark theme design. Its layout was buil
 - WAI-ARIA roles and properties
 - CSS including flexbox, grid and custom properties
 - Custom Webfonts
-- Vanilla JavaScript
+- Modern JavaScript (ES6+) syntax
 
 ## Useful Resources
 
