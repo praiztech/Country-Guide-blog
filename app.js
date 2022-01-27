@@ -260,14 +260,6 @@ function identifyInputAfterBackspace(val) {
   identifySubsequentInputs(val);
 }
 
-function identifySubsequentInputs(val) {
-  if (computeData === '-') {
-    permittedInput = 'operand'; //disallow an operator after an operand dt contains only '-'
-  } else {
-    permittedInput = operators.includes(val) ? 'operator' : 'operand';
-  }
-}
-
 function identifyInputDefaults(val) {
   if (permittedInput === null) { //first click to enter computation data
     srOutput.textContent = '';
@@ -278,6 +270,14 @@ function identifyInputDefaults(val) {
     operandIndex = 1;
   } else if (permittedInput === 'operand' && operandIndex !== 1) { //last displayed char is an operand
     identifySubsequentInputs(val);
+  }
+}
+
+function identifySubsequentInputs(val) {
+  if (computeData === '-') {
+    permittedInput = 'operand'; //disallow an operator after an operand dt contains only '-'
+  } else {
+    permittedInput = operators.includes(val) ? 'operator' : 'operand';
   }
 }
 
@@ -460,10 +460,7 @@ function computeAndShowResult() {
 }
 
 function findAndCalculate(operator1, operator2) {
-  let startIndex = computation.findIndex((elem, index) => {
-    if (index % 2 === 0) return false; //operators are at odd-numbered indices
-    return (elem === operator1 || elem === operator2);
-  });
+  let startIndex = computation.findIndex((elem, index) => (index % 2 === 0 && (elem === operator1 || elem === operator2))); //operators are at odd-numbered indices
 
   if (startIndex === -1) return;
 
