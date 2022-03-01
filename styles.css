@@ -4,7 +4,7 @@
   src: url('/fonts/lobster-regular-webfont.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
-  font-display: fallback;
+  font-display: optional;
 }
 
 @font-face {
@@ -12,7 +12,7 @@
   src: url('/fonts/sourceserifpro-italic-webfont.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
-  font-display: fallback;
+  font-display: optional;
 }
 
 /* RESET */
@@ -432,6 +432,10 @@ input:last-of-type:checked ~ .controls::after {
   grid-gap: 0.75rem;
 }
 
+.keypad [data-key="Delete"] {
+  grid-column: span 2;
+}
+
 .keypad [data-key="Clear"] {
   grid-column: span 2;
 }
@@ -452,7 +456,7 @@ button.symbol {
   border-style: var(--btn-border-style);
   border-color: var(--symbtn-border);
   background-color: var(--symbtn-bg);
-  font: 2.05rem/1 var(--italic-font), serif;
+  font: bold 2.05rem/1 var(--italic-font), serif;
 }
 
 button.number {
@@ -489,7 +493,7 @@ button.symbol.enter, button.symbol:focus {
   }
 
   .shtcut-open-btn {
-    box-sizing: content-box; /* changed to provide room 4 border while maintaining proportions */
+    box-sizing: content-box; /* changed to allow 4 btn border while maintaining svg proportions */
     border: 2px solid CanvasText;
   }
 
