@@ -1,3 +1,5 @@
+"use strict";
+
 const rootElem = document.documentElement;
 
 document.addEventListener('DOMContentLoaded', () => {
