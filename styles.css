@@ -1,18 +1,26 @@
 /* FONTS */
 @font-face {
-  font-family: 'lobsterregular';
-  src: url('/fonts/lobster-regular-webfont.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-  font-display: optional;
-}
-
-@font-face {
   font-family: 'source_serif_proitalic';
   src: url('/fonts/sourceserifpro-italic-webfont.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
-  font-display: optional;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'lobsterregular';
+  src: url('/fonts/lobster-regular-webfont.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'source_serif_proitalic';
+  src: url('/fonts/inconsolata-variablefont_wdthwght-webfont.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
 /* RESET */
