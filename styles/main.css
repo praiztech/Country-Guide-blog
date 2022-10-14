@@ -1,0 +1,42 @@
+/* FONTS */
+@font-face {
+  font-family: 'lobsterregular';
+  src: url('/fonts/lobster-regular-webfont.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'inconsolataregular';
+  src: url('/fonts/inconsolata-variablefont_wdthwght-webfont.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* RESET */
+*, *::before, *::after {
+  box-sizing: border-box;
+  background: transparent;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0; /*:focus styles have been implemented*/
+  font-family: inherit;
+}
+
+body {
+  line-height: 1.5;
+}
+
+ul, ol {
+  list-style-type: none;
+}
+
+strong {
+  font-weight: 700;
+}
+
+/* GENERAL || */
+

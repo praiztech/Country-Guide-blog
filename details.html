@@ -7,11 +7,14 @@
   <title></title>
   <meta name="color-scheme" content="light dark">
   <meta name="author" content="Praise Agbabiaka">
-  <meta name="description" content="An accessible website that explores all the countries in the world.">
+  <meta name="description" content="An accessible website that explores all countries across the globe.">
   <link rel="preload" href="/fonts/lobster-regular-webfont.woff2" as="font" type="font/woff2" crossorigin="anonymous">
   <link rel="preload" href="/fonts/inconsolata-variablefont_wdthwght-webfont.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="stylesheet" href="/styles.css">
-  <script src="/main.js" defer></script>
+  <link rel="stylesheet" href="/styles/light.css">
+  <link rel="stylesheet" media="(prefers-color-scheme: dark)" href="/styles/dark.css">
+  <link rel="stylesheet" href="/styles/main.css">
+  <script type="module" src="/scripts/theme.js"></script>
+  <script type="module" src="/scripts/app.js"></script>
   <script nomodule>
     document.body.style.fontSize = '25px';
     document.body.innerHTML = "<p>This website won't work properly in the current version of this browser. Please update your browser to view the page.</p><p> Note that this site can't be view on Internet Explorer.</p>";
@@ -19,33 +22,40 @@
 </head>
 <body>
   <noscript><p>This website doesn't work properly without JavaScript enabled. Please enable JavaScript to view the page.</p></noscript>
-  <a href="#main" class="skip">Skip to Main Content</a>
-  <button type="button" class="skip">Keyboard Shortcuts</button>
+  <a href="#main" data-skip>Skip to Main Content</a>
+  <button type="button" data-skip>Keyboard Shortcuts</button>
   <header>
-    <div class="logo"></div>
+    <div class="logo">PRAIZTECH</div>
     <fieldset class="theme-widget">
       <legend data-visually-hidden>Select the page theme</legend>
       <label for="light">light theme</label>
       <span role="presentation" class="controls">
-      <!--role="presentation" removes the custom control from Firefox's accessibility tree-->
         <input type="radio" name="theme" value="light" id="light">
         <input type="radio" name="theme" value="dark" id="dark">
         <span class="switch" aria-hidden="true"></span>
       </span>
       <label for="dark">dark theme</label>
     </fieldset>
+    <button type="button" class="mobile-search">
+      <span role="presentation" data-visually-hidden>Search</span>
+      <svg viewBox="" aria-hidden="true"></svg>
+    </button>
     <form role="search" novalidate>
       <label for="search">Enter the Country's Name</label>
       <input type="search" name="search" id="search">
       <button type="submit">
-        <span role="presentation" data-visually-hidden>submit</span>
-        <!--role="presentation" to prevent multiple virtual cursor stops on screen readers-->
+        <span role="presentation" data-visually-hidden>Go</span>
         <svg viewBox="" aria-hidden="true"></svg>
       </button>
     </form>
   </header>
   <div class="content">
-    <nav aria-label="Breadcrumb"></nav>
+    <nav aria-label="Breadcrumb">
+      <ol role="list">
+        <li><a href="/index.html">Where in the World?</a></li>
+        <li><a href="#" aria-current="page"></a></li>
+      </ol>
+    </nav>
     <main id="main"></main>
   </div>
   <footer><small>Built by <strong>Praise Agbabiaka</strong></small></footer>
