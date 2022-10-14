@@ -47,7 +47,7 @@ strong {
   white-space: nowrap;
 }
 
-.skip-link {
+[data-skip] {
   position: absolute;
   font-size: 2rem;
   text-decoration: none;
@@ -60,7 +60,7 @@ strong {
   transition: transform 0.4s ease-in-out;
 }
 
-.skip-link:focus {
+[data-skip]:focus {
   transform: translateY(10px);
 }
 
