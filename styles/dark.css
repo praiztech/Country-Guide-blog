@@ -1,0 +1,32 @@
+:root {
+  --pg-bg: var(--very-dark-blue);
+  --pg-txt: var(--very-light-gray);
+  --elem-bg: var(--dark-blue);
+  --elem-border: var(--gray);
+  --skip-bg: var(--blue);
+  --search-focus: var(--very-light-gray);
+  --search-focus-txt: var(--very-dark-blue);
+  --search-listbox-bg: var(--dark-blue);
+}
+
+/* custom properties aren't inherited by pseudo-elements */
+.switch::before, .switch, .switch::after {
+  --very-light-gray: hsl(0 0% 100% / 75%);
+  --dark-gray: hsl(0 0% 40%);
+  --switch-bg: var(--very-light-gray);
+  --switch-border: var(--dark-gray);
+  --switch-knob-bg: var(--dark-gray);
+  --switch-knob-border: var(--very-light-gray);
+  --align-2-input: 100%;
+}
+
+/* ensures custom properties cascade into svg from <use> */
+.search-icon {
+  --icon-bg-color: var(--blue);
+  --icon-color: var(--very-light-gray);
+}
+
+.error-icon {
+  --icon-bg-color: hsl(0 100% 50%);
+  --icon-color: var(--very-dark-blue);
+}

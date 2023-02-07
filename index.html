@@ -8,65 +8,77 @@
   <meta name="color-scheme" content="light dark">
   <meta name="author" content="Praise Agbabiaka">
   <meta name="description" content="An accessible website that explores all countries across the globe.">
-  <link rel="preload" href="/fonts/lobster-regular-webfont.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="/fonts/inconsolata-variablefont_wdthwght-webfont.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="stylesheet" href="/styles/light.css">
+  <link rel="preload" href="/fonts/sourceserifpro-italic-webfont.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="stylesheet" media="(prefers-color-scheme: light)" href="/styles/light.css">
   <link rel="stylesheet" media="(prefers-color-scheme: dark)" href="/styles/dark.css">
-  <link rel="stylesheet" href="/styles/main.css">
+  <link rel="stylesheet" href="/styles/base.css">
   <script type="module" src="/scripts/theme.js"></script>
   <script type="module" src="/scripts/app.js"></script>
   <script nomodule>
     document.body.style.fontSize = '25px';
-    document.body.innerHTML = "<p>This website won't work properly in the current version of this browser. Please update your browser to view the page.</p><p> Note that this site can't be view on Internet Explorer.</p>";
+    document.body.innerHTML = "<p>This website won't work properly in the current version of this browser. Please update your browser to view the page.</p><p> Note that this site can't be viewed on Internet Explorer.</p>";
   </script>
 </head>
 <body>
-  <noscript><p>This website doesn't work properly without JavaScript enabled. Please enable JavaScript to view the page.</p></noscript>
-  <a href="#main" data-skip>Skip to Main Content</a>
-  <button type="button" data-skip>Keyboard Shortcuts</button>
-  <header>
-    <div class="logo">PRAIZTECH</div>
-    <fieldset class="theme-widget">
-      <legend data-visually-hidden>Select the page theme</legend>
-      <label for="light">light theme</label>
-      <span role="presentation" class="controls">
-      <!--role="presentation" removes the custom control from Firefox's accessibility tree-->
-        <input type="radio" name="theme" value="light" id="light">
-        <input type="radio" name="theme" value="dark" id="dark">
-        <span class="switch" aria-hidden="true"></span>
-      </span>
-      <label for="dark">dark theme</label>
-    </fieldset>
-    <button type="button" class="mobile-search">
-      <span role="presentation" data-visually-hidden>Search</span>
-      <!--role="presentation" to prevent multiple virtual cursor stops on NVDA-->
-      <svg viewBox="" aria-hidden="true"></svg>
-    </button>
-    <form role="search" novalidate>
-      <label for="search">Enter the Country's Name</label>
-      <input type="search" name="search" id="search">
-      <button type="submit">
-        <span role="presentation" data-visually-hidden>Go</span>
-        <svg viewBox="" aria-hidden="true"></svg>
-      </button>
-    </form>
-  </header>
-  <div class="content">
-    <nav aria-label="Filter by Region">
-      <ul role="list">
-        <!--role="list" restores list semantics removed on Safari browser by css list-style-type: none-->
-        <li><a href="?filter=all">All</a></li>
-        <li><a href="?filter=africa">Africa</a></li>
-        <li><a href="?filter=americas">Americas</a></li>
-        <li><a href="?filter=asia">Asia</a></li>
-        <li><a href="?filter=europe">Europe</a></li>
-        <li><a href="?filter=oceania">Oceania</a></li>
-      </ul>
-    </nav>
+  <noscript><p>This website doesn't work in Reader Mode and without JavaScript enabled. Please exit Reader Mode or enable JavaScript to view the page.</p></noscript>
+  <div class="content" hidden>
+    <a href="#main" data-skip>Skip to Main Content</a>
+    <button type="button" data-skip>Keyboard Shortcuts</button>
+    <header>
+      <div class="logo">
+        <a href="/index.html"><img src="/images/logo.svg" alt="Where in the World? Home"></a>
+      </div>
+      <fieldset class="theme-widget">
+        <legend data-visually-hidden>Select the page theme</legend>
+        <label for="light">light theme</label>
+        <span role="none" class="controls">
+        <!--span with role="none" to remove the custom control from Firefox's accessibility tree-->
+          <input type="radio" name="theme" value="light" id="light">
+          <input type="radio" name="theme" value="dark" id="dark">
+          <span class="switch" aria-hidden="true"></span>
+        </span>
+        <label for="dark">dark theme</label>
+      </fieldset>
+      <form role="search" class="search-widget" novalidate>
+        <span role="none" class="search-box">
+          <!--span with role="none" to remove the text container from Firefox's accessibility tree-->
+          <div class="input-controls">
+            <label for="search-input" data-visible>Search for a country…</label>
+            <input role="combobox" id="search-input" type="text" name="searchInput" aria-controls="combobox-listbox" aria-expanded="expanded" autocomplete="off" aria-autocomplete="list" aria-activedescendant="" spellcheck="false">
+          </div>
+          <div class="suggestions">
+            <h2 id="suggestions-heading" aria-hidden="true">Suggestions</h2>
+            <ul role="listbox" id="combobox-listbox" aria-labelledby="suggestions-heading">
+              <li role="option" id="option1" aria-selected="false">Afghanistan</li>
+              <li role="option" id="option2" aria-selected="false">Algeria</li>
+              <li role="option" id="option3" aria-selected="false">Andorra</li>
+              <li role="option" id="option4" aria-selected="false">Albania</li>
+              <li role="option" id="option5" aria-selected="false">Angola</li>
+              <li role="option" id="option6" aria-selected="false">Argentina</li>
+              <li role="option" id="option7" aria-selected="false">Antigua and Barbuda</li>
+              <li role="option" id="option8" aria-selected="false">Democratic Republic of the Congo</li>
+              <li role="option" id="option9" aria-selected="false">Saint Vincent and the Grenadines</li>
+              <li role="option" id="option10" aria-selected="false">United States of America</li>
+            </ul>
+          </div>
+        </span>
+        <button type="submit">
+          <span role="none" data-visually-hidden>Search</span>
+          <!--role="none" to prevent multiple virtual cursor stops on NVDA-->
+          <svg viewBox="0 0 48 48" aria-hidden="true">
+            <use href="/images/icons.svg#searchIcon" class="search-icon"/>
+          </svg>
+        </button>
+      </form>
+    </header>
     <main id="main">
       <h1>Where in the World?</h1>
+      <ul></ul>
+      <nav aria-label="Pagination"></nav>
     </main>
+    <footer>
+      <small>&copy; 2023 PraizTech Development. All rights reserved.</small>
+    </footer>
   </div>
-  <footer><small>Built by <strong>Praise Agbabiaka</strong></small></footer>
 </body>
 </html>

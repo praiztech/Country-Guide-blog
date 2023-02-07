@@ -7,17 +7,15 @@
   <title></title>
   <meta name="color-scheme" content="light dark">
   <meta name="author" content="Praise Agbabiaka">
-  <meta name="description" content="An accessible website that explores all countries across the globe.">
+  <meta name="description" content="An accessible website that explores sovereign countries across the globe.">
   <link rel="preload" href="/fonts/sourceserifpro-italic-webfont.woff2" as="font" type="font/woff2" crossorigin="anonymous">
   <link rel="stylesheet" media="(prefers-color-scheme: light)" href="/styles/light.css">
   <link rel="stylesheet" media="(prefers-color-scheme: dark)" href="/styles/dark.css">
   <link rel="stylesheet" href="/styles/base.css">
+  <link rel="stylesheet" href="/styles/404.css">
+  <script type="module" src="/scripts/errortxt.js"></script>
   <script type="module" src="/scripts/theme.js"></script>
   <script type="module" src="/scripts/app.js"></script>
-  <script nomodule>
-    document.body.style.fontSize = '25px';
-    document.body.innerHTML = "<p>This website won't work properly in the current version of this browser. Please update your browser to view the page.</p><p> Note that this site can't be viewed on Internet Explorer.</p>";
-  </script>
 </head>
 <body>
   <noscript><p>This website doesn't work in Reader Mode and without JavaScript enabled. Please exit Reader Mode or enable JavaScript to view the page.</p></noscript>
@@ -38,10 +36,20 @@
         </span>
         <label for="dark">dark theme</label>
       </fieldset>
+    </header>
+    <main id="main">
+      <h1>Search Error</h1>
+      <p id="error-msg" hidden>
+        <svg role="img" viewBox="0 0 24 24">
+          <title>Error!</title>
+          <use href="/images/icons.svg#errorIcon" class="error-icon" aria-hidden="true"/>
+        </svg>
+        <span></span>
+      </p>
       <form role="search" class="search-widget" novalidate>
         <span role="none">
           <label for="search-box" data-visible>Search for a country…</label>
-          <input type="search" name="searchBox" id="search-box" autocomplete="off" spellcheck="false" aria-describedby="search-error">
+          <input type="search" name="searchBox" id="search-box" autocomplete="off" spellcheck="false" aria-describedby="error-msg">
         </span>
         <button type="submit">
           <span role="none" data-visually-hidden>Go</span>
@@ -50,14 +58,7 @@
           </svg>
         </button>
       </form>
-    </header>
-    <nav aria-label="Breadcrumb">
-      <ol role="list">
-        <li><a href="/index.html">Home</a></li>
-        <li><a href="#" aria-current="page"></a></li>
-      </ol>
-    </nav>
-    <main id="main"></main>
+    </main>
     <footer>
       <small>&copy; 2023 PraizTech Development. All rights reserved.</small>
     </footer>

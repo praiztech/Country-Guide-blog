@@ -1,9 +1,20 @@
 "use strict";
-let page = location.hash;
-if (page) {
-  document.title = (location.pathname.startsWith('/details.html') ?
-                    `${page.charAt(1).toUpperCase()}${page.slice(2)} - PRAIZTECH` :
-                    `Page ${page.slice(-1)} - Where in the World? - PRAIZTECH`); 
-} else {
-  document.title = 'Page 1 - Where in the World? - PRAIZTECH';
-}
+(function() {
+  let page = location.hash.slice(1);
+  if (page) {
+    let parentPage = location.pathname;
+    switch (parentPage) {
+      case '/404.html':
+        document.title = 'Search Error - Where in the World?';
+        break;
+      case '/details.html':
+        document.title = `${page[0].toUpperCase() + page.slice(1)} - Where in the World?`;
+        break;
+      default: //index.html
+        document.title = `Page ${page.slice(4)} - Where in the World?`;
+        break;
+    }
+  } else {
+    document.title = 'Where in the World?';
+  }
+})();
