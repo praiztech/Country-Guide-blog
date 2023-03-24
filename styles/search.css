@@ -53,7 +53,7 @@ use.search-icon, [data-theme="light"] use.search-icon {
   --icon-color: var(--dark-blue);
 }
 
-@media screen and (prefers-color-theme: dark) {
+@media screen and (prefers-color-scheme: dark) {
   use.search-icon {
     --icon-bg-color: var(--blue);
     --icon-color: var(--very-light-gray);
