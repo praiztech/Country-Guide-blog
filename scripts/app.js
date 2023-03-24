@@ -1,31 +1,20 @@
-import loadSearchedPage from "./search.js";
-import { handlePointerVisualFocus } from "./autocomplete.js";
-import handleKeyPress from "./keyboard.js";
+import { loadSearchedCountry, SearchCombobox } from "./searchCombobox/index.js";
+
+customElements.define('search-combobox', SearchCombobox);
 
 const [searchForm] = document.forms;
-const searchInputElem = searchForm.elements.searchInput;
-
 searchForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  let searchValue = evt.target.elements.searchInput.value;
-  let sanitizedSearchValue = searchValue.normalize("NFC").toLowerCase().split(' ').map(word => word.replace(
-    /[^a-z\u00e3\u00e9\u00ed]/g, '')).join(' '); //normalize() for são tomé and príncipe
-  loadSearchedPage(sanitizedSearchValue);
-});
-
-//ensures search label is only visible when the search input is blank
-searchInputElem.addEventListener('input', (evt) => {
-  const {value: searchValue, labels: [searchLabel]} = evt.target;
-  if (searchValue === '') {
-    !searchLabel.hasAttribute('data-visible') && searchLabel.setAttribute('data-visible', 'true');
-  } else {
-    searchLabel.hasAttribute('data-visible') && searchLabel.removeAttribute('data-visible');
+  // currentTarget to account for manually dispatched submit event
+  let searchValue = evt.currentTarget.firstElementChild.value;
+  if (searchValue.length > 0) {
+    searchValue = ( // normalize() for são tomé and príncipe
+      searchValue.normalize("NFC").toLowerCase().split(' ')
+      .map((word) => word.replace(/[^a-z\u00e3\u00e9\u00ed]/g, '')).join(' ')
+    );
   }
-});
-
-searchInputElem.addEventListener('focus', handlePointerVisualFocus); //change to input subsequently?
-
-document.addEventListener('keydown', handleKeyPress);
+  loadSearchedCountry(searchValue);
+}, true); // capturing phase as submit event doesn't bubble
 
 /*
 let response = await fetch('https://restcountries.com/v3.1/all');
@@ -36,4 +25,6 @@ let details = await response.json();
 console.log(country);
 console.log(details);
 */
-document.querySelector('.content').removeAttribute('hidden'); //make page visible
+
+// remember in errortxt.js
+document.querySelector('.content').removeAttribute('hidden'); // displays page

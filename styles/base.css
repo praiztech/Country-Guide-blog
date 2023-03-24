@@ -27,25 +27,12 @@ ul, ol {
   list-style-type: none;
 }
 
-button, a, input {
+button, a {
   color: inherit;
 }
 
 a {
   text-decoration: none;
-}
-
-input[type="radio"], input[type="search"] {
-  appearance: none;
-}
-
-input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webkit-search-decoration {
-  -webkit-appearance: none;
-  appearance: none;
-}
-
-label {
-  cursor: pointer;
 }
 
 /* ensures that page is only visible after content loading, when css is disabled */
@@ -92,6 +79,8 @@ label {
   --search-focus: var(--light-blue);
   --search-focus-txt: var(--very-light-blue);
   --search-listbox-bg: var(--white);
+  --search-listbox-scrollbar-track: var(--light-blue);
+  --search-listbox-scrollbar-thumb: var(--very-light-blue);
 }
 
 :root[data-theme="dark"] {
@@ -103,6 +92,12 @@ label {
   --search-focus: var(--very-light-gray);
   --search-focus-txt: var(--very-dark-blue);
   --search-listbox-bg: var(--dark-blue);
+  --search-listbox-scrollbar-track: var(--very-light-gray);
+  --search-listbox-scrollbar-thumb: var(--very-dark-blue);
+}
+
+html, body {
+  height: 100%; /* ensures page takes up full browser viewport but still works with zoom */
 }
 
 /* sets noscript text properties for when JavaScript is turned off */
@@ -111,6 +106,7 @@ body {
 }
 
 .content {
+  min-height: 100%;
   display: block;
   color: var(--pg-txt);
   background-color: var(--pg-bg);
@@ -120,8 +116,8 @@ body {
 [data-skip] {
   position: absolute;
   left: 0;
-  border: 0.3rem solid var(--elem-border);
-  border-radius: 0.3rem;
+  border: 3px solid var(--elem-border);
+  border-radius: 3px;
   padding: calc(var(--base-spacing) * 0.45);
   background-color: var(--skip-bg);
   font-weight: bold;
@@ -162,8 +158,8 @@ header {
 }
 
 .logo:hover, .logo a:focus {
-  outline: 0.1rem solid var(--elem-border);
-  outline-offset: 0.2rem;
+  outline: 1px solid var(--elem-border);
+  outline-offset: 2px;
 }
 
 /* removes focus styling for mouse users on browsers that support :focus-visible */
@@ -172,95 +168,72 @@ header {
   outline-offset: 0;
 }
 
-/* Theme Switch */
-.theme-widget {
+/* Theme Widget */
+button.theme-toggle {
   grid-column: 2 / -1;
   justify-self: end;
+  position: relative; /* for positioning pseudo-elements for styling */
   display: flex;
   align-items: center;
-}
-
-/* custom properties aren't inherited by pseudo-elements */
-.controls, .switch::before, .switch::after {
-  --theme-ctrl-size: 2.4rem;
-}
-
-/* display of inline-block unnecessary coz flex children act like block-level elements */
-.controls {
-  width: calc(var(--theme-ctrl-size) * 2);
-  height: var(--theme-ctrl-size);
-  margin: 0 calc(var(--base-spacing) * 0.5);
-  position: relative;
-}
-
-input[type="radio"] {
-  opacity: 0.00001;
-  position: absolute;
-  width: 50%;
-  height: 100%;
-  top: 0;
-  z-index: 3;
+  gap: 0.2rem;
   cursor: pointer;
 }
 
-input[type="radio"]:first-of-type {
-  left: 0;
+/* custom properties aren't inherited by pseudo-elements */
+button.theme-toggle::before, button.theme-toggle::after, .toggle-ctrl::before, .toggle-ctrl, .toggle-ctrl::after {
+  --theme-ctrl-size: 2.4rem
 }
 
-input[type="radio"]:last-of-type {
-  left: 50%;
-}
-
-/* .switch::before for border on hover, .switch for border on focus, .switch::after for theme knob */
-[data-theme="light"] .switch::before, [data-theme="light"] .switch, [data-theme="light"] .switch::after {
+/* button.theme-toggle::before for hover styling, button.theme-toggle::after for focus styling */
+[data-theme="light"] button.theme-toggle::before, [data-theme="light"] button.theme-toggle::after, [data-theme="light"] .toggle-ctrl::before, [data-theme="light"] .toggle-ctrl {
   --dark-blue: hsl(207 26% 17%);
   --very-light-gray: hsl(0 0% 100% / 75%);
   --switch-bg: var(--dark-blue);
   --switch-border: var(--very-light-gray);
   --switch-knob-bg: var(--very-light-gray);
   --switch-knob-border: var(--dark-blue);
-  --align-2-input: 0;
 }
 
-[data-theme="dark"] .switch::before, [data-theme="dark"] .switch, [data-theme="dark"] .switch::after {
+[data-theme="dark"] button.theme-toggle::before, [data-theme="dark"] button.theme-toggle::after, [data-theme="dark"] .toggle-ctrl::before, [data-theme="dark"] .toggle-ctrl, [data-theme="dark"] .toggle-ctrl::after {
   --very-light-gray: hsl(0 0% 100% / 75%);
   --dark-gray: hsl(0 0% 40%);
   --switch-bg: var(--very-light-gray);
   --switch-border: var(--dark-gray);
   --switch-knob-bg: var(--dark-gray);
   --switch-knob-border: var(--very-light-gray);
-  --align-2-input: 100%;
 }
 
-.switch {
-  display: inline-block;
-  width: 100%;
-  height: 100%;
-  border-radius: calc(var(--theme-ctrl-size) * 0.5);
-  background-color: var(--switch-bg);
-  transition: background-color 0.4s ease-in-out;
-}
-
-.switch::before {
+/* allows for hover styling distinct from focus styling so focus-visible can be utilized in supporting browsers */
+button.theme-toggle::before, button.theme-toggle::after {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: calc(var(--theme-ctrl-size) * 0.5);
-  z-index: 1;
+  /* top and left of auto ensures button pseudo-elements fit over toggle control */
+  width: calc(var(--theme-ctrl-size) * 2);
+  height: var(--theme-ctrl-size);
+  z-index: 2;
 }
 
-.theme-widget:hover .switch::before, input[type="radio"]:focus ~ .switch {
+button.theme-toggle:hover::before, button.theme-toggle:focus::after {
   border: 0.5rem double var(--switch-border);
+  border-radius: 10000000000000000px;
 }
 
-input[type="radio"]:focus:not(:focus-visible) ~ .switch {
+button.theme-toggle:focus:not(:focus-visible)::after {
   border: none;
 }
 
-.switch::after {
+.toggle-ctrl {
+  width: calc(var(--theme-ctrl-size) * 2);
+  height: var(--theme-ctrl-size);
+  flex: 1 0 auto; /* ensures toggle control never shrinks below its base size */
+  border-radius: 10000000000000000px; /* hack to produce a perfect pill on rectangular elements */
+  background-color: var(--switch-bg);
+  transition: background-color 0.4s ease-in-out;
+  position: relative; /* for positioning toggle control knob */
+}
+
+/* toggle control knob */
+.toggle-ctrl::before {
   content: "";
   position: absolute;
   top: 0;
@@ -270,152 +243,37 @@ input[type="radio"]:focus:not(:focus-visible) ~ .switch {
   background-color: var(--switch-knob-bg);
   border: 0.5rem double var(--switch-knob-border);
   border-radius: 50%;
-  z-index: 2;
-  transform: translateX(var(--align-2-input));
+  z-index: 3;
+}
+
+button.theme-toggle[aria-pressed="true"] .toggle-ctrl::before {
+  transform: translateX(var(--theme-ctrl-size));
   transition: transform 0.4s ease-in-out;
 }
 
-/* Search Widget */
-.search-widget {
-  --search-widget-vertical-spacing: calc(var(--base-spacing) * 0.4);
-  --search-widget-horizontal-spacing: var(--base-spacing);
-  grid-column: 1 / -1;
-  background-color: var(--elem-bg);
-  border: 0.1rem solid var(--elem-border);
-  border-radius: 2.4rem;
-  padding: var(--search-widget-vertical-spacing) var(--search-widget-horizontal-spacing);
-  display: flex;
+button.theme-toggle[aria-pressed="false"] .toggle-ctrl::before {
+  transform: translateX(0);
+  transition: transform 0.4s ease-in-out;
 }
 
-.search-box {
-  flex: 1 1 0px;
-  padding: calc(var(--search-widget-vertical-spacing) * 0.25) 0;
-  position: relative;
+@media screen and (prefers-reduced-motion: reduce) {
+  button.theme-toggle[aria-pressed] .toggle-ctrl::before, .toggle-ctrl {
+    transition: none;
+  }
 }
 
-.input-controls:hover {
-  outline: 0.1rem solid var(--search-focus);
-}
-
-.input-controls:focus-within {
-  outline: 0.1rem solid var(--search-focus);
-  background-color: var(--search-focus);
-  color: var(--search-focus-txt);
-}
-
-.search-box label {
-  padding-left: calc(var(--search-widget-vertical-spacing) * 0.5);
-  letter-spacing: 0.12rem;
-  word-spacing: 0.16rem;
-  opacity: 1;
-}
-
-.search-box label:not([data-visible]) {
-  opacity: 0.0001;
-}
-
-.search-box input {
-  position: absolute;
-  top: 0;
-  left: calc(var(--search-widget-vertical-spacing) * 0.5);
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
-  z-index: 3;
-  /* ↑ced font-size makes the caret and input more visible, line-height of 1 ensures it still fits over its label */
+/* Main */
+main h1 {
+  padding: var(--base-spacing) 0;
   font-size: calc(var(--base-font-size) * 1.5);
-  line-height: 1;
+  font-weight: 600;
 }
 
-.search-box .suggestions {
-  position: absolute;
-  top: calc(100% + var(--search-widget-vertical-spacing));
-  left: 0;
-  max-height: 67.5vh;
-  background-color: var(--search-listbox-bg);
-  border: 0.1rem solid var(--elem-border);
-  border-radius: 0.25rem;
-  white-space: nowrap;
-  z-index: 5;
-  display: flex;
-  flex-direction: column;
+/* Footer */
+footer {
+  text-align: center;
 }
 
-/* to allow suggestions list scroll */
-.suggestions [role="listbox"] {
-  flex: 1 1 auto;
-  overflow: auto;
-}
-
-.suggestions h2, .suggestions [role="option"] {
-  padding: calc(var(--search-widget-vertical-spacing) * 0.5) calc(var(--search-widget-horizontal-spacing) * 0.5);
-  border-bottom: 0.1rem solid var(--elem-border);
-}
-
-.suggestions [role="option"]:last-child {
-  border-bottom: none;
-}
-
-.suggestions [aria-selected] {
-  cursor: pointer;
-}
-
-.suggestions [aria-selected="true"] {
-  background-color: var(--search-focus);
-  color: var(--search-focus-txt);
-}
-
-.suggestions [aria-selected="false"] {
-  background-color: transparent;
-  color: inherit;
-}
-
-.search-widget button {
-  --search-btn-size: 2.4rem;
-  --search-btn-horizontal-spacing: calc(var(--search-widget-vertical-spacing) * 2);
-  --search-btn-vertical-spacing: calc(var(--search-widget-vertical-spacing) * 0.5);
-  width: calc(var(--search-btn-size) + var(--search-btn-horizontal-spacing));
-  height: calc(var(--search-btn-size) + var(--search-btn-vertical-spacing));
-  padding: var(--search-btn-vertical-spacing) calc(var(--search-btn-horizontal-spacing) * 0.35) 0 calc(var(--search-btn-horizontal-spacing) * 0.65);
-  cursor: pointer;
-  position: relative;
-}
-
-/* allows for button hover styling distinct from focus styling so focus-visible can be utilized in supporting browsers */
-.search-widget button::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.search-widget button:hover::after, .search-widget button:focus {
-  outline: 0.2rem solid var(--search-focus);
-}
-
-.search-widget button:focus:not(:focus-visible) {
-  outline: none;
-}
-
-.search-widget svg {
-  width: 100%;
-  height: 100%;
-}
-
-/* ensures custom properties cascade into svg from <use> */
-[data-theme="light"] .search-icon {
-  --icon-bg-color: var(--white);
-  --icon-color: var(--dark-blue);
-}
-
-[data-theme="dark"] .search-icon {
-  --icon-bg-color: var(--blue);
-  --icon-color: var(--very-light-gray);
-}
-
-/* Footer Copyright */
 small {
   font-size: calc(var(--base-font-size) * 0.75);
 }

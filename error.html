@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="/scripts/title.js" async></script>
+  <script src="/scripts/pg-title.js"></script>
   <title></title>
   <meta name="color-scheme" content="light dark">
   <meta name="author" content="Praise Agbabiaka">
@@ -12,31 +12,68 @@
   <link rel="stylesheet" media="(prefers-color-scheme: light)" href="/styles/light.css">
   <link rel="stylesheet" media="(prefers-color-scheme: dark)" href="/styles/dark.css">
   <link rel="stylesheet" href="/styles/base.css">
-  <link rel="stylesheet" href="/styles/404.css">
   <script type="module" src="/scripts/errortxt.js"></script>
   <script type="module" src="/scripts/theme.js"></script>
-  <script type="module" src="/scripts/app.js"></script>
+  <style>
+    .content {
+      position: relative;
+    }
+
+    p {
+      line-height: 1.75;
+    }
+
+    p svg {
+      --error-icon-size: 2.4rem;
+      width: var(--error-icon-size);
+      height: var(--error-icon-size);
+      vertical-align: text-bottom;
+    }
+
+    /* ensures custom properties cascade into svg from <use> */
+    use.error-icon, [data-theme="light"] use.error-icon {
+      --icon-bg-color: hsl(0 77% 47%);
+      --icon-color: var(--light-gray);
+    }
+
+    @media screen and (prefers-color-theme: dark) {
+      use.error-icon {
+        --icon-bg-color: hsl(0 100% 50%);
+        --icon-color: var(--very-dark-blue);
+      }
+    }
+
+    [data-theme="dark"] use.error-icon {
+      --icon-bg-color: hsl(0 100% 50%);
+      --icon-color: var(--very-dark-blue);
+    }
+
+    footer {
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+    }
+  </style>
 </head>
 <body>
   <noscript><p>This website doesn't work in Reader Mode and without JavaScript enabled. Please exit Reader Mode or enable JavaScript to view the page.</p></noscript>
   <div class="content" hidden>
     <a href="#main" data-skip>Skip to Main Content</a>
-    <button type="button" data-skip>Keyboard Shortcuts</button>
     <header>
       <div class="logo">
         <a href="/index.html"><img src="/images/logo.svg" alt="Where in the World? Home"></a>
       </div>
-      <fieldset class="theme-widget">
-        <legend data-visually-hidden>Select the page theme</legend>
-        <label for="light">light theme</label>
-        <span role="none" class="controls">
-          <input type="radio" name="theme" value="light" id="light">
-          <input type="radio" name="theme" value="dark" id="dark">
-          <span class="switch" aria-hidden="true"></span>
-        </span>
-        <label for="dark">dark theme</label>
-      </fieldset>
+      <button type="button" class="theme-toggle">
+        <span class="toggle-ctrl" aria-hidden="true"></span>
+        <span role="none">dark theme</span>
+      </button>
     </header>
+    <nav aria-label="Breadcrumb">
+      <ol>
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="#" aria-current="page">Search Error</a></li>
+      </ol>
+    </nav>
     <main id="main">
       <h1>Search Error</h1>
       <p id="error-msg" hidden>
@@ -46,18 +83,6 @@
         </svg>
         <span></span>
       </p>
-      <form role="search" class="search-widget" novalidate>
-        <span role="none">
-          <label for="search-box" data-visible>Search for a country…</label>
-          <input type="search" name="searchBox" id="search-box" autocomplete="off" spellcheck="false" aria-describedby="error-msg">
-        </span>
-        <button type="submit">
-          <span role="none" data-visually-hidden>Go</span>
-          <svg viewBox="0 0 48 48" aria-hidden="true">
-            <use href="/images/icons.svg#searchIcon" class="search-icon"/>
-          </svg>
-        </button>
-      </form>
     </main>
     <footer>
       <small>&copy; 2023 PraizTech Development. All rights reserved.</small>

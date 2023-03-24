@@ -1,10 +1,10 @@
 "use strict";
 (function() {
   let page = location.hash.slice(1);
-  if (page) {
+  if (page !== '') {
     let parentPage = location.pathname;
     switch (parentPage) {
-      case '/404.html':
+      case '/error.html':
         document.title = 'Search Error - Where in the World?';
         break;
       case '/details.html':

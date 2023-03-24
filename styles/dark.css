@@ -10,23 +10,11 @@
 }
 
 /* custom properties aren't inherited by pseudo-elements */
-.switch::before, .switch, .switch::after {
+button.theme-toggle::before, button.theme-toggle::after, .toggle-ctrl::before, .toggle-ctrl {
   --very-light-gray: hsl(0 0% 100% / 75%);
   --dark-gray: hsl(0 0% 40%);
   --switch-bg: var(--very-light-gray);
   --switch-border: var(--dark-gray);
   --switch-knob-bg: var(--dark-gray);
   --switch-knob-border: var(--very-light-gray);
-  --align-2-input: 100%;
-}
-
-/* ensures custom properties cascade into svg from <use> */
-.search-icon {
-  --icon-bg-color: var(--blue);
-  --icon-color: var(--very-light-gray);
-}
-
-.error-icon {
-  --icon-bg-color: hsl(0 100% 50%);
-  --icon-color: var(--very-dark-blue);
 }
