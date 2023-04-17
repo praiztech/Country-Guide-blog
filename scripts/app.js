@@ -1,4 +1,4 @@
-import { loadSearchedCountry, SearchCombobox } from "./searchCombobox/index.js";
+import { isSovereignCountry, SearchCombobox } from "./searchCombobox/index.js";
 
 customElements.define('search-combobox', SearchCombobox);
 
@@ -6,14 +6,19 @@ const [searchForm] = document.forms;
 searchForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   // currentTarget to account for manually dispatched submit event
-  let searchValue = evt.currentTarget.firstElementChild.value;
+  const combobox = evt.currentTarget.firstElementChild;
+  let searchValue = combobox.value;
   if (searchValue.length > 0) {
     searchValue = ( // normalize() for são tomé and príncipe
       searchValue.normalize("NFC").toLowerCase().split(' ')
       .map((word) => word.replace(/[^a-z\u00e3\u00e9\u00ed]/g, '')).join(' ')
     );
   }
-  loadSearchedCountry(searchValue);
+  if (searchValue.length === 0 || !isSovereignCountry(searchValue)) {
+    combobox.error = searchValue; // triggers error txt display
+  } else {
+    location.assign(`./details.html#${searchValue}`);
+  }
 }, true); // capturing phase as submit event doesn't bubble
 
 /*
@@ -26,5 +31,4 @@ console.log(country);
 console.log(details);
 */
 
-// remember in errortxt.js
 document.querySelector('.content').removeAttribute('hidden'); // displays page

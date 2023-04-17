@@ -5,7 +5,7 @@
   --search-widget-horizontal-spacing: var(--base-spacing);
   grid-column: 1 / -1;
   background-color: var(--elem-bg);
-  border: 1px solid var(--elem-border);
+  border: 0.1rem solid var(--elem-border);
   border-radius: 10000000000000000px;
   padding: var(--search-widget-vertical-spacing) var(--search-widget-horizontal-spacing);
   display: flex;

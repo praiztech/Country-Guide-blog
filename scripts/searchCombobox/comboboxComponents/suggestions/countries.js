@@ -25,7 +25,7 @@ const altCountryNames = ['burma', 'congo', 'congo-brazzaville', 'congo-kinshasa'
 'great britain', 'holy see', 'republic of the gambia', 'republic of the sudan', 'sao tome and principe', 'swaziland', 
 'uk', 'united states', 'usa', 'vatican city state'];
 
-function capitalizeCountryName(countryName, descriptors) {
+function capitalizeCountryName(countryName, descriptors = ['and', 'of', 'the']) {
   return (
     countryName.split(' ').map((word) => descriptors.includes(word) ? word : `${word[0].toUpperCase() + word.slice(1)}`)
     .join(' ')
@@ -41,7 +41,6 @@ function getCountryMatches(searchValue) {
    */
   const searchValuehasNonAscii = [...searchValue].some((char) => char.codePointAt(0) > 127);
   const collator = searchValuehasNonAscii ? Intl.Collator() : Intl.Collator('ro', {sensitivity: 'base'});
-  const descriptors = ['and', 'of', 'the'];
   const matchedCountries = [];
   let matchStart = false;
 
@@ -49,7 +48,7 @@ function getCountryMatches(searchValue) {
   for (const countryName of sovereignCountries) {
     // collator.compare() instead of string.startswith() to account for non-ascii characters eg in são tomé and príncipe
     if (collator.compare(searchValue, countryName.slice(0, searchValue.length)) === 0) {
-      const capitalizedCountryName = capitalizeCountryName(countryName, descriptors);
+      const capitalizedCountryName = capitalizeCountryName(countryName);
       matchedCountries.push(capitalizedCountryName);
       if (!matchStart) matchStart = true; // first match
     } else {
@@ -67,15 +66,8 @@ function findCountrySuggestions(searchValue) {
   return suggestedCountries;
 }
 
-function loadSearchedCountry(searchValue) {
-  if (searchValue.length === 0) { // search value is an empty string
-    location.assign('./error.html#novalueerror');
-    // if search value is neither in sovereign countries nor alt country names array
-  } else if (!(sovereignCountries.includes(searchValue) || altCountryNames.includes(searchValue))) {
-    location.assign('./error.html#invalidvalueerror');
-  } else {
-    location.assign(`./details.html#${searchValue}`);
-  }
+function isSovereignCountry(searchValue) {
+  return (sovereignCountries.includes(searchValue) || altCountryNames.includes(searchValue));
 }
 
-export { findCountrySuggestions, loadSearchedCountry };
+export { findCountrySuggestions, isSovereignCountry };

@@ -12,7 +12,7 @@ function showClearButton(clearButton) {
 }
 
 function hideClearButton(clearButton) {
-  clearButton.setAttribute('hidden', 'true');
+  clearButton.setAttribute('hidden', 'hidden');
   clearButton.removeEventListener('click', clearSearchValue);
 }
 

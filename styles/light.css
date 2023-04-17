@@ -5,8 +5,8 @@
   --elem-border: var(--gray);
   --skip-bg: var(--very-light-blue);
   --search-focus: var(--light-blue);
-  --search-focus-txt: var(--very-light-blue);
-  --search-listbox-bg: var(--white);
+  --search-bg: var(--white);
+  --error-txt: hsl(0 77% 47%);
 }
 
 /* custom properties aren't inherited by pseudo-elements */

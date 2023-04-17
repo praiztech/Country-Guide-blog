@@ -1,20 +1,25 @@
 "use strict";
 (function() {
-  let page = location.hash.slice(1);
-  if (page !== '') {
-    let parentPage = location.pathname;
+  const page = decodeURIComponent(location.hash.slice(1));
+  if (page === '') {
+    document.title = 'Where in the World?';
+  } else {
+    const parentPage = location.pathname;
     switch (parentPage) {
-      case '/error.html':
-        document.title = 'Search Error - Where in the World?';
+      case '/404.html':
+        document.title = 'Page Not Found - Where in the World?';
         break;
       case '/details.html':
-        document.title = `${page[0].toUpperCase() + page.slice(1)} - Where in the World?`;
+        const prefix = (
+          page.split(' ').map(
+            (word) => ['and', 'of', 'the'].includes(word) ? word : `${word[0].toUpperCase() + word.slice(1)}`
+            ).join(' ')
+        );
+        document.title = `${prefix} - Where in the World?`;
         break;
       default: //index.html
         document.title = `Page ${page.slice(4)} - Where in the World?`;
         break;
     }
-  } else {
-    document.title = 'Where in the World?';
   }
 })();

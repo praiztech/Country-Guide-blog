@@ -9,7 +9,7 @@ export class SearchCombobox extends HTMLElement {
     const shadowStyles = document.createElement('style');
     shadowStyles.textContent = `
     :host {
-      position: relative; /* allows positioning of suggestions list */
+      position: relative; /* allows positioning of error text and suggestions list */
     }
 
     :host *, :host *::before, :host *::after {
@@ -19,8 +19,6 @@ export class SearchCombobox extends HTMLElement {
       margin: 0;
       padding: 0;
       border: 0;
-      font-family: inherit;
-      font-size: 100%;
     }
 
     :host *[data-visually-hidden] {
@@ -55,21 +53,14 @@ export class SearchCombobox extends HTMLElement {
       position: relative; /* allows positioning of input controls */
     }
     
-    .search-box:hover {
+    .search-box:hover, .search-box:focus-within {
       outline: 0.1rem solid var(--search-focus);
-    }
-    
-    .search-box:focus-within {
-      outline: 0.1rem solid var(--search-focus);
-      background-color: var(--search-focus);
-      color: var(--search-focus-txt);
     }
     
     .search-box label {
       padding-left: calc(var(--search-widget-vertical-spacing) * 0.5);
       letter-spacing: 0.12rem;
       word-spacing: 0.16rem;
-      vertical-align: middle;
       opacity: 1;
     }
     
@@ -91,19 +82,13 @@ export class SearchCombobox extends HTMLElement {
     
     .input-controls input {
       width: calc(100% - var(--search-btn-size));
-      height: auto;
       flex: 1 1 auto;
       padding-left: calc(var(--search-widget-vertical-spacing) * 0.5);
-      font-size: calc(var(--base-font-size) * 1.5);
-      line-height: 1.25;
+      font-size: calc(var(--base-font-size) * 1.25);
       color: inherit;
-      cursor: pointer;
       /* 
        * it appears that every non-replaced element within an absolutely positioned flex container must have a
-       * defined width, only then does a flex of auto or 1 work correctly;
-       * ↑ced font-size makes the caret and input more visible, height of auto and line-height of 1.25 prevents 
-       * input text from being cut off at the edges and ensures input element matches the height of its container 
-       * while its label font size at 1.6rem allows increased text spacing to support WCAG 1.4.12
+       * defined width, only then does a flex of auto or 1 work correctly
        */
     }
     
@@ -123,13 +108,54 @@ export class SearchCombobox extends HTMLElement {
     .input-controls .clear-icon {
       --icon-color: currentColor;
     }
+
+    #error-txt:not([data-error="none"]), #error-txt:not([data-error="none"])::before {
+      --error-arrow-width: 1.2rem;
+      --error-arrow-height: 1.2rem;
+      --error-arrow-bg: var(--search-bg);
+    }
+
+    #error-txt:not([data-error="none"]) {
+      position: absolute;
+      top: calc(100% + var(--search-widget-vertical-spacing) + var(--error-arrow-height));
+      left: 0;
+      background-color: var(--search-bg);
+      color: var(--error-txt);
+      padding: calc(var(--base-spacing) * 0.4);
+      box-shadow: 0 0 var(--error-arrow-height) var(--elem-border);
+      border: 0.1rem solid transparent;
+      border-radius: 0.2rem;
+      z-index: 5;
+    }
+
+    #error-txt:not([data-error="none"])::before {
+      content: "";
+      position: absolute;
+      left: 10%;
+      top: 0;
+      transform: translateY(-100%);
+      width: var(--error-arrow-width);
+      height: var(--error-arrow-height);
+      background-color: var(--error-arrow-bg);
+      clip-path: polygon(50% 0, 100% 100%, 0 100%);
+    }
+
+    @media screen and (forced-colors: active) {
+      #error-txt:not([data-error="none"]) {
+        border-color: CanvasText;
+      }
+
+      #error-txt:not([data-error="none"])::before {
+        background-color: CanvasText;
+      }
+    }
     
     .suggestions {
       position: absolute;
       top: calc(100% + var(--search-widget-vertical-spacing));
       left: 0;
       max-height: 70vh;
-      background-color: var(--search-listbox-bg);
+      background-color: var(--search-bg);
       border: 0.1rem solid var(--elem-border);
       border-radius: 0.2rem;
       z-index: 5;
@@ -145,6 +171,7 @@ export class SearchCombobox extends HTMLElement {
     }
     
     .suggestions h2, .suggestions [role="option"] {
+      font-size: calc(var(--base-font-size) * 1.25);
       padding: calc(var(--search-widget-vertical-spacing) * 0.5) calc(var(--search-widget-horizontal-spacing) * 0.5);
       border-bottom: 0.1rem solid var(--elem-border);
     }
@@ -152,26 +179,14 @@ export class SearchCombobox extends HTMLElement {
     .suggestions [role="option"]:last-child {
       border-bottom: none;
     }
-    
+
     .suggestions [aria-selected] {
-      cursor: pointer;
-    }
-    
-    .suggestions [aria-selected="true"] {
-      color: var(--search-focus-txt);
-      background-color: var(--search-focus);
-    }
-    
-    .suggestions [aria-selected="false"] {
-      background-color: transparent;
-      color: inherit;
+      cursor: default;
     }
 
-    @media screen and (forced-colors: active) {
-      .suggestions [aria-selected="true"] {
-        outline: 0.1rem solid;
-        outline-offset: -0.4rem;
-      }
+    .suggestions [aria-selected="true"] {
+      outline: 0.1rem solid var(--search-focus);
+      outline-offset: -0.4rem;
     }
     `;
 
@@ -181,7 +196,7 @@ export class SearchCombobox extends HTMLElement {
     const searchLabel = document.createElement('label');
     searchLabel.setAttribute('for', 'combobox-input');
     searchLabel.setAttribute('data-visible', 'true');
-    searchLabel.textContent = 'Search for a country…';
+    searchLabel.textContent = 'Search for a country';
 
     const inputBox = document.createElement('div');
     inputBox.classList.add('input-controls');
@@ -207,11 +222,18 @@ export class SearchCombobox extends HTMLElement {
     `;
     const comboboxInput = inputBox.firstElementChild;
     comboboxInput.addEventListener('focus', (evt) => {
-      handleClearButtonVisibility(evt.target);
-      handleSuggestionsListDisplay(evt.target);
+      const target = evt.target;
+      handleClearButtonVisibility(target);
+      if (!target.hasAttribute('aria-invalid')) handleSuggestionsListDisplay(target);
     });
     comboboxInput.addEventListener('input', (evt) => {
-      evt.target.setAttribute('value', evt.target.value); // triggers mutation observer
+      const target = evt.target;
+      if (target.hasAttribute('aria-invalid')) { // handle error txt removal
+        target.removeAttribute('aria-invalid');
+        target.removeAttribute('aria-describedby');
+        target.getRootNode().getElementById('error-txt').setAttribute('data-error', 'none');
+      }
+      target.setAttribute('value', target.value); // triggers search value mutation observer
     });
     
     comboboxInput.addEventListener('keydown', (evt) => {
@@ -235,9 +257,10 @@ export class SearchCombobox extends HTMLElement {
         if (shadowNode.activeElement !== mutationTarget) mutationTarget.focus();
         // setTimeout ensures that input value scrolling happens after focus processing
         setTimeout(() => {
-          const {scrollWidth, value: {length: valueLength}} = mutationTarget;
-          if (mutationTarget.scrollWidth > mutationTarget.parentElement.clientWidth) {
-            mutationTarget.scrollLeft = scrollWidth; // scrollWidth to ensure input's value is scrolled to the max
+          const {scrollWidth: mutationTargetScrollWidth, value: {length: valueLength}} = mutationTarget;
+          if (mutationTargetScrollWidth > mutationTarget.parentElement.clientWidth) {
+            // mutation target scrollWidth to ensure input's value is scrolled to the max
+            mutationTarget.scrollLeft = mutationTargetScrollWidth;
           }
           mutationTarget.setSelectionRange(valueLength, valueLength);
         }, 0);
@@ -249,9 +272,35 @@ export class SearchCombobox extends HTMLElement {
 
     searchBox.append(...[searchLabel, inputBox]);
 
+    const errorText = document.createElement('p');
+    errorText.id = 'error-txt';
+    errorText.dataset.error = 'none';
+    const errorTextObserver = new MutationObserver((mutations) => {
+      const [errorTextMutation] = mutations;
+      const mutationTarget = errorTextMutation.target;
+      const shadowNode = mutationTarget.getRootNode();
+      const errorValue = mutationTarget.dataset.error;
+      if (errorValue === 'none') {
+        mutationTarget.innerHTML = '';
+        shadowNode.host.error = errorValue;
+      } else {
+        const errorMsg = (
+          errorValue.length > 0 ? `No result found for: ${errorValue}` : `Enter a country's name to search`
+        );
+        mutationTarget.innerHTML = `
+        <span><span data-visually-hidden>Error! </span>${errorMsg}</span>
+        `;
+        const comboboxInput = shadowNode.getElementById('combobox-input');
+        comboboxInput.setAttribute('aria-invalid', 'true');
+        comboboxInput.setAttribute('aria-describedby', mutationTarget.id);
+        comboboxInput.focus();
+      }
+    });
+    errorTextObserver.observe(errorText, {attributes: true, attributeFilter: ['data-error']});
+
     const suggestionsNotifier = document.createElement('span');
     suggestionsNotifier.setAttribute('aria-live', 'polite');
-    suggestionsNotifier.setAttribute('atomic', 'true');
+    suggestionsNotifier.setAttribute('aria-atomic', 'true');
     suggestionsNotifier.setAttribute('data-visually-hidden', 'true');
     suggestionsNotifier.addEventListener('announce', (evt) => {
       evt.target.textContent = evt.detail;
@@ -263,12 +312,12 @@ export class SearchCombobox extends HTMLElement {
       <h2 id="suggestions-heading" aria-hidden="true">Suggestions</h2>
       <ol role="listbox" id="combobox-listbox" aria-labelledby="suggestions-heading"></ol>
     `;
-    suggestionsWrapper.hidden = true;
+    suggestionsWrapper.setAttribute('hidden', 'hidden');
 
-    this.shadowRoot.append(...[shadowStyles, searchBox, suggestionsNotifier, suggestionsWrapper]);
+    this.shadowRoot.append(...[shadowStyles, searchBox, errorText, suggestionsNotifier, suggestionsWrapper]);
   }
 
-  // ensures combobox input property and attribute mirror one another
+  // keeps combobox properties and attributes in sync
   set value(searchValue) {
     this.setAttribute('value', searchValue);
   }
@@ -277,7 +326,26 @@ export class SearchCombobox extends HTMLElement {
     return this.getAttribute('value');
   }
 
+  set error(errorValue) {
+    this.setAttribute('error', errorValue);
+  }
+
+  get error() {
+    return this.getAttribute('error');
+  }
+
   connectedCallback() {
     this.setAttribute('value', '');
+    this.setAttribute('error', 'none');
+  }
+
+  static get observedAttributes() {
+    return ['error'];
+  }
+
+  attributeChangedCallback(attr, _, newValue) {
+    if (newValue !== 'none') { // none is set from within the shadow DOM by error txt element so no handling reqd
+      this.shadowRoot.getElementById('error-txt').setAttribute(`data-${attr}`, newValue); // triggers error txt handling
+    }
   }
 }

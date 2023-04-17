@@ -12,11 +12,4 @@
       <rect x="5" y="11" width="14" height="2" fill="#000" style="fill: var(--icon-color)"/>
     </g>
   </symbol>
-  <symbol viewBox="0 0 24 24">
-    <g id="errorIcon">
-      <polygon points="12,2 22,22 2,22" fill="#f00" style="fill: var(--icon-bg-color)"/>
-      <rect x="10.5" y="8" width="3" height="8" fill="#fff" style="fill: var(--icon-color)"/>
-      <circle cx="12" cy="19" r="1.5" fill="#fff" style="fill: var(--icon-color)"/>
-    </g>
-  </symbol>
 </svg>

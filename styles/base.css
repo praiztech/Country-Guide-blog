@@ -1,7 +1,7 @@
 /* FONT */
 @font-face {
-  font-family: 'source_serif_proitalic';
-  src: url('/fonts/sourceserifpro-italic-webfont.woff2') format('woff2');
+  font-family: 'poppins';
+  src: url('/fonts/Poppins-Regular.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -55,7 +55,7 @@ a {
 /* GENERAL */
 :root {
   font-size: 62.5%; /* reset 4 easier sizing w/out impacting text resize */
-  --italic-font: 'source_serif_proitalic';
+  --base-font: 'poppins';
   --base-font-size: 1.6rem;
   --base-spacing: 1.25rem;
   --white: hsl(0 0% 99%);
@@ -77,10 +77,8 @@ a {
   --elem-border: var(--gray);
   --skip-bg: var(--very-light-blue);
   --search-focus: var(--light-blue);
-  --search-focus-txt: var(--very-light-blue);
-  --search-listbox-bg: var(--white);
-  --search-listbox-scrollbar-track: var(--light-blue);
-  --search-listbox-scrollbar-thumb: var(--very-light-blue);
+  --search-bg: var(--white);
+  --error-txt: hsl(0 77% 47%);
 }
 
 :root[data-theme="dark"] {
@@ -90,10 +88,8 @@ a {
   --elem-border: var(--gray);
   --skip-bg: var(--blue);
   --search-focus: var(--very-light-gray);
-  --search-focus-txt: var(--very-dark-blue);
-  --search-listbox-bg: var(--dark-blue);
-  --search-listbox-scrollbar-track: var(--very-light-gray);
-  --search-listbox-scrollbar-thumb: var(--very-dark-blue);
+  --search-bg: var(--dark-blue);
+  --error-txt: hsl(0 76% 69%);
 }
 
 html, body {
@@ -102,7 +98,7 @@ html, body {
 
 /* sets noscript text properties for when JavaScript is turned off */
 body {
-  font: var(--base-font-size)/1.5 var(--italic-font, serif);
+  font: var(--base-font-size)/1.5 var(--base-font, serif);
 }
 
 .content {
@@ -116,8 +112,8 @@ body {
 [data-skip] {
   position: absolute;
   left: 0;
-  border: 3px solid var(--elem-border);
-  border-radius: 3px;
+  border: 0.3rem solid var(--elem-border);
+  border-radius: 0.3rem;
   padding: calc(var(--base-spacing) * 0.45);
   background-color: var(--skip-bg);
   font-weight: bold;
@@ -136,7 +132,7 @@ header {
   padding: calc(var(--base-spacing) * 0.8) 0;
   display: grid;
   grid-template-columns: auto 1fr;
-  row-gap: var(--base-spacing);
+  row-gap: calc(var(--base-spacing) * 1.5);
 }
 
 /* Logo */
@@ -266,7 +262,6 @@ button.theme-toggle[aria-pressed="false"] .toggle-ctrl::before {
 main h1 {
   padding: var(--base-spacing) 0;
   font-size: calc(var(--base-font-size) * 1.5);
-  font-weight: 600;
 }
 
 /* Footer */
