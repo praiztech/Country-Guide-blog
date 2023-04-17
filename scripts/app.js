@@ -7,19 +7,29 @@ searchForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   // currentTarget to account for manually dispatched submit event
   const combobox = evt.currentTarget.firstElementChild;
-  let searchValue = combobox.value;
+  const searchValue = combobox.value;
+  let validatedSearchValue = '';
   if (searchValue.length > 0) {
-    searchValue = ( // normalize() for são tomé and príncipe
+    validatedSearchValue = ( // normalize() for são tomé and príncipe
       searchValue.normalize("NFC").toLowerCase().split(' ')
       .map((word) => word.replace(/[^a-z\u00e3\u00e9\u00ed]/g, '')).join(' ')
     );
   }
-  if (searchValue.length === 0 || !isSovereignCountry(searchValue)) {
-    combobox.error = searchValue; // triggers error txt display
+  if (validatedSearchValue.length === 0 || !isSovereignCountry(validatedSearchValue)) {
+    combobox.error = searchValue; // ensures error text exactly reflects user input
   } else {
-    location.assign(`./details.html#${searchValue}`);
+    location.assign(`./details.html#${validatedSearchValue}`);
   }
 }, true); // capturing phase as submit event doesn't bubble
+
+/*
+ * used instead HTML alternative coz #fragment are used to designate the website pages and define each page title
+ * and the skip link #fragment messes with this paging format
+ */
+document.querySelector('a[data-skip]').addEventListener('click', (evt) => {
+  evt.preventDefault();
+  document.querySelector('h1').focus();
+});
 
 /*
 let response = await fetch('https://restcountries.com/v3.1/all');
