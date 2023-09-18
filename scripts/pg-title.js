@@ -4,8 +4,7 @@
   if (page === '') {
     document.title = 'Where in the World?';
   } else {
-    const parentPage = location.pathname;
-    switch (parentPage) {
+    switch (location.pathname) { //parent page
       case '/404.html':
         document.title = 'Page Not Found - Where in the World?';
         break;

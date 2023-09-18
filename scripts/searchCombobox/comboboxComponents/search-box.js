@@ -1,9 +1,11 @@
 function clearSearchValue(evt) {
+  const clearedValue = '';
   const comboboxInput = evt.currentTarget.previousElementSibling;
-  comboboxInput.value = ''; // sets search value rendered in the DOM
+  comboboxInput.focus();
+  comboboxInput.value = clearedValue; // sets search value rendered in the DOM
   // distinguishes programmatic search value mutation from mutation triggered by user input
   comboboxInput.setAttribute('data-programmatic-value-mutation', 'true');
-  comboboxInput.setAttribute('value', comboboxInput.value); // triggers mutation observer
+  comboboxInput.setAttribute('value', clearedValue); // triggers mutation observer
 }
 
 function showClearButton(clearButton) {

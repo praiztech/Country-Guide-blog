@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="/scripts/pg-title.js"></script>
+  <script src="/scripts/pg-title.js" async></script>
   <title></title>
   <meta name="color-scheme" content="light dark">
   <meta name="author" content="Praise Agbabiaka">
-  <meta name="description" content="An accessible website that explores all countries across the globe.">
+  <meta name="description" content="An accessible website that explores all sovereign countries across the globe.">
   <link rel="preload" href="/fonts/Poppins-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
   <link rel="stylesheet" media="(prefers-color-scheme: light)" href="/styles/light.css">
   <link rel="stylesheet" media="(prefers-color-scheme: dark)" href="/styles/dark.css">
@@ -17,11 +17,13 @@
   <script type="module" src="/scripts/app.js"></script>
   <script nomodule>
     document.body.style.fontSize = '25px';
-    document.body.innerHTML = "<p>This website won't work properly in the current version of this browser. Please update your browser to view the page.</p><p> Note that this site can't be viewed on Internet Explorer.</p>";
+    document.body.innerHTML = "<p>This website won't work properly in the current version of this browser. Please update your browser to view the page. Note that this site can't be viewed on Internet Explorer.</p>";
   </script>
 </head>
 <body>
-  <noscript><p>This website doesn't work in Reader Mode and without JavaScript enabled. Please exit Reader Mode or enable JavaScript to view the page.</p></noscript>
+  <noscript>
+    <p>This website doesn't work without JavaScript. Please enable JavaScript to view the page.</p>
+  </noscript>
   <div class="content" hidden>
     <a href="#main" data-skip>Skip to Main Content</a>
     <header>
@@ -35,7 +37,7 @@
       <form role="search" class="search-widget" novalidate>
         <search-combobox></search-combobox>
         <button type="submit">
-          <span role="none" data-visually-hidden>Go</span>
+          <span role="none" data-visually-hidden>Search</span>
           <svg viewBox="0 0 52 52" aria-hidden="true">
             <use href="/images/icons.svg#searchIcon" class="search-icon"/>
           </svg>
@@ -48,9 +50,11 @@
         <li><a href="#" aria-current="page"></a></li>
       </ol>
     </nav>
-    <main id="main"></main>
+    <main>
+      <h1 id="main"></h1>
+    </main>
     <footer>
-      <small>&copy; 2023 PraizTech. All rights reserved.</small>
+      <small>&copy; 2023 Praise Agbabiaka. All rights reserved.</small>
     </footer>
   </div>
 </body>

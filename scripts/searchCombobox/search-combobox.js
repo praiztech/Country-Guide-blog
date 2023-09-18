@@ -109,13 +109,13 @@ export class SearchCombobox extends HTMLElement {
       --icon-color: currentColor;
     }
 
-    #error-txt:not([data-error="none"]), #error-txt:not([data-error="none"])::before {
+    #error-txt.display, #error-txt.display::before {
       --error-arrow-width: 1.2rem;
       --error-arrow-height: 1.2rem;
       --error-arrow-bg: var(--search-bg);
     }
 
-    #error-txt:not([data-error="none"]) {
+    #error-txt.display {
       position: absolute;
       top: calc(100% + var(--search-widget-vertical-spacing) + var(--error-arrow-height));
       left: 0;
@@ -128,7 +128,7 @@ export class SearchCombobox extends HTMLElement {
       z-index: 5;
     }
 
-    #error-txt:not([data-error="none"])::before {
+    #error-txt.display::before {
       content: "";
       position: absolute;
       left: 10%;
@@ -141,11 +141,11 @@ export class SearchCombobox extends HTMLElement {
     }
 
     @media screen and (forced-colors: active) {
-      #error-txt:not([data-error="none"]) {
+      #error-txt.display {
         border-color: CanvasText;
       }
 
-      #error-txt:not([data-error="none"])::before {
+      #error-txt.display::before {
         background-color: CanvasText;
       }
     }
@@ -223,15 +223,18 @@ export class SearchCombobox extends HTMLElement {
     const comboboxInput = inputBox.firstElementChild;
     comboboxInput.addEventListener('focus', (evt) => {
       const target = evt.target;
+      // the side effects of clear btn focusing combobox input on search value removal is handled by mutation observer
+      if (target.parentElement.contains(evt.relatedTarget)) return;
       handleClearButtonVisibility(target);
+      // if aria-invalid is present, error txt is displayed instead
       if (!target.hasAttribute('aria-invalid')) handleSuggestionsListDisplay(target);
     });
     comboboxInput.addEventListener('input', (evt) => {
       const target = evt.target;
-      if (target.hasAttribute('aria-invalid')) { // handle error txt removal
-        target.removeAttribute('aria-invalid');
-        target.removeAttribute('aria-describedby');
-        target.getRootNode().getElementById('error-txt').setAttribute('data-error', 'none');
+      if (target.hasAttribute('aria-invalid')) { // triggers error txt removal
+        target.getRootNode().getElementById('error-txt').dispatchEvent(new CustomEvent('errordisplay', {
+          detail: 'none'
+        }));
       }
       target.setAttribute('value', target.value); // triggers search value mutation observer
     });
@@ -245,28 +248,22 @@ export class SearchCombobox extends HTMLElement {
     const searchValueObserver = new MutationObserver((mutations) => {
       const [searchValueMutation] = mutations;
       const mutationTarget = searchValueMutation.target;
-      const shadowNode = mutationTarget.getRootNode();
-      shadowNode.host.value = mutationTarget.value; // sets combobox value attribute to input's value
       handleSearchLabelVisibility(mutationTarget);
       handleClearButtonVisibility(mutationTarget);
       if (mutationTarget.hasAttribute('data-programmatic-value-mutation')) {
         mutationTarget.removeAttribute('data-programmatic-value-mutation');
         const [suggestionsList, ] = getSuggestionsListRef(mutationTarget);
         closeSuggestionsList(suggestionsList, mutationTarget);
-        // for instance of clear button click
-        if (shadowNode.activeElement !== mutationTarget) mutationTarget.focus();
-        // setTimeout ensures that input value scrolling happens after focus processing
-        setTimeout(() => {
-          const {scrollWidth: mutationTargetScrollWidth, value: {length: valueLength}} = mutationTarget;
-          if (mutationTargetScrollWidth > mutationTarget.parentElement.clientWidth) {
-            // mutation target scrollWidth to ensure input's value is scrolled to the max
-            mutationTarget.scrollLeft = mutationTargetScrollWidth;
-          }
-          mutationTarget.setSelectionRange(valueLength, valueLength);
-        }, 0);
+        const {scrollWidth: mutationTargetScrollWidth, value: {length: valueLength}} = mutationTarget;
+        if (mutationTargetScrollWidth > mutationTarget.parentElement.clientWidth) {
+          // mutation target scrollWidth to ensure input's value is scrolled to the max
+          mutationTarget.scrollLeft = mutationTargetScrollWidth;
+        }
+        mutationTarget.setSelectionRange(valueLength, valueLength);
       } else {
         handleSuggestionsListDisplay(mutationTarget);
       }
+      mutationTarget.getRootNode().host.value = mutationTarget.value; // sets combobox value attribute to input's value
     });
     searchValueObserver.observe(comboboxInput, {attributes: true, attributeFilter: ['value']});
 
@@ -274,29 +271,31 @@ export class SearchCombobox extends HTMLElement {
 
     const errorText = document.createElement('p');
     errorText.id = 'error-txt';
-    errorText.dataset.error = 'none';
-    const errorTextObserver = new MutationObserver((mutations) => {
-      const [errorTextMutation] = mutations;
-      const mutationTarget = errorTextMutation.target;
-      const shadowNode = mutationTarget.getRootNode();
-      const errorValue = mutationTarget.dataset.error;
+    errorText.addEventListener('errordisplay', (evt) => {
+      const target = evt.target;
+      const shadowNode = target.getRootNode();
+      const comboboxInput = shadowNode.getElementById('combobox-input');
+      const errorValue = evt.detail;
       if (errorValue === 'none') {
-        mutationTarget.innerHTML = '';
+        target.classList.remove('display');
+        while (target.hasChildNodes()) target.lastChild.remove();
+        comboboxInput.removeAttribute('aria-invalid');
+        comboboxInput.removeAttribute('aria-describedby');
         shadowNode.host.error = errorValue;
       } else {
+        const hiddenErrorText = document.createElement('span');
+        hiddenErrorText.setAttribute('data-visually-hidden', 'true');
+        hiddenErrorText.textContent = 'Error! ';
         const errorMsg = (
           errorValue.length > 0 ? `No result found for: ${errorValue}` : `Enter a country's name to search`
         );
-        mutationTarget.innerHTML = `
-        <span><span data-visually-hidden>Error! </span>${errorMsg}</span>
-        `;
-        const comboboxInput = shadowNode.getElementById('combobox-input');
+        target.append(...[hiddenErrorText, errorMsg]);
+        target.classList.add('display');
         comboboxInput.setAttribute('aria-invalid', 'true');
-        comboboxInput.setAttribute('aria-describedby', mutationTarget.id);
+        comboboxInput.setAttribute('aria-describedby', target.id);
         comboboxInput.focus();
       }
     });
-    errorTextObserver.observe(errorText, {attributes: true, attributeFilter: ['data-error']});
 
     const suggestionsNotifier = document.createElement('span');
     suggestionsNotifier.setAttribute('aria-live', 'polite');
@@ -317,7 +316,7 @@ export class SearchCombobox extends HTMLElement {
     this.shadowRoot.append(...[shadowStyles, searchBox, errorText, suggestionsNotifier, suggestionsWrapper]);
   }
 
-  // keeps combobox properties and attributes in sync
+  // getter and setter keep combobox properties and attributes in sync
   set value(searchValue) {
     this.setAttribute('value', searchValue);
   }
@@ -344,8 +343,9 @@ export class SearchCombobox extends HTMLElement {
   }
 
   attributeChangedCallback(attr, _, newValue) {
-    if (newValue !== 'none') { // none is set from within the shadow DOM by error txt element so no handling reqd
-      this.shadowRoot.getElementById('error-txt').setAttribute(`data-${attr}`, newValue); // triggers error txt handling
+    if (newValue !== 'none') {
+      // triggers error txt display
+      this.shadowRoot.getElementById('error-txt').dispatchEvent(new CustomEvent('errordisplay', {detail: newValue}));
     }
   }
 }

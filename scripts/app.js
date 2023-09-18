@@ -5,7 +5,7 @@ customElements.define('search-combobox', SearchCombobox);
 const [searchForm] = document.forms;
 searchForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  // currentTarget to account for manually dispatched submit event
+  // currentTarget to account for submit event dispatched on combobox
   const combobox = evt.currentTarget.firstElementChild;
   const searchValue = combobox.value;
   let validatedSearchValue = '';
@@ -20,7 +20,11 @@ searchForm.addEventListener('submit', (evt) => {
   } else {
     location.assign(`./details.html#${validatedSearchValue}`);
   }
-}, true); // capturing phase as submit event doesn't bubble
+  /*
+   * as submit events dont bubble, event handling in the capturing phase ensures that this event handler
+   * is triggered ffg submit event dispatch on combobox
+   */
+}, true);
 
 /*
  * used instead HTML alternative coz #fragment are used to designate the website pages and define each page title

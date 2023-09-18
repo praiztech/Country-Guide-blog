@@ -24,7 +24,7 @@ function createSuggestedOptions(suggestionsArray) {
       evt.preventDefault(); // prevents suggested option from gaining focus
     });
     suggestedOption.addEventListener('pointerup', (evt) => {
-      handleSuggestionsListClick(evt.target); // to support WCAG 2.5.2
+      handleSuggestionsListClick(evt.target); // handler triggered on pointerup to support WCAG 2.5.2
     });
     suggestedOptions.append(suggestedOption);
   }
@@ -96,7 +96,7 @@ function handleSuggestionsListClick(selectedOption, triggerMutationObserver = tr
   if (triggerMutationObserver) {
     // distinguishes programmatic search value mutation from mutation triggered by user input
     comboboxInput.setAttribute('data-programmatic-value-mutation', 'true');
-    comboboxInput.setAttribute('value', comboboxInput.value); // triggers mutation observer
+    comboboxInput.setAttribute('value', selectedValue); // triggers mutation observer
   }
 }
 
@@ -126,22 +126,25 @@ function handleSuggestionsListKeyDown(evt) {
       )
       break;
     case 'Tab': {
+      const shadowNode = comboboxInput.getRootNode();
       const selectedOptionId = comboboxInput.getAttribute('aria-activedescendant');
       if (selectedOptionId !== null) {
-        handleSuggestionsListClick(suggestionsList.querySelector(`#${selectedOptionId}`), false);
+        // input box focusout handler manages most other side effects so no need to trigger mutation observer
+        handleSuggestionsListClick(shadowNode.getElementById(selectedOptionId), false);
         // manually sets host's value attribute to input's value since mutation observer isn't triggered
-        comboboxInput.getRootNode().host.value = comboboxInput.value;
+        shadowNode.host.value = comboboxInput.value;
       }
     }
       break;
     case 'Enter': {
+      const shadowNode = comboboxInput.getRootNode();
       const selectedOptionId = comboboxInput.getAttribute('aria-activedescendant');
       if (selectedOptionId === null) {
         !suggestionsListIsClosed && closeSuggestionsList(suggestionsList, comboboxInput);
         // manually dispatches submit event coz input elements in shadow dom don't
-        comboboxInput.getRootNode().host.dispatchEvent(new Event('submit'));
+        shadowNode.host.dispatchEvent(new Event('submit'));
       } else {
-        handleSuggestionsListClick(suggestionsList.querySelector(`#${selectedOptionId}`));
+        handleSuggestionsListClick(shadowNode.getElementById(selectedOptionId));
       }
     }
       break;

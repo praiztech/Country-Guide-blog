@@ -35,7 +35,7 @@ a {
   text-decoration: none;
 }
 
-/* ensures that page is only visible after content loading, when css is disabled */
+/* ensures that page is only visible after content loading if css is disabled */
 [hidden] {
   display: none !important;
 }
@@ -98,7 +98,7 @@ html, body {
 
 /* sets noscript text properties for when JavaScript is turned off */
 body {
-  font: var(--base-font-size)/1.5 var(--base-font, serif);
+  font: var(--base-font-size)/1.5 var(--base-font, sans-serif);
 }
 
 .content {
@@ -211,9 +211,10 @@ button.theme-toggle::before, button.theme-toggle::after {
 
 button.theme-toggle:hover::before, button.theme-toggle:focus::after {
   border: 0.5rem double var(--switch-border);
-  border-radius: 10000000000000000px;
+  border-radius: 10000000000000000px; /* hack to produce a perfect pill on rectangular elements */
 }
 
+/* ensures no focus styling from mouse click in browsers that support focus-visible, as hover styling is visible */
 button.theme-toggle:focus:not(:focus-visible)::after {
   border: none;
 }
@@ -221,8 +222,8 @@ button.theme-toggle:focus:not(:focus-visible)::after {
 .toggle-ctrl {
   width: calc(var(--theme-ctrl-size) * 2);
   height: var(--theme-ctrl-size);
-  flex: 1 0 auto; /* ensures toggle control never shrinks below its base size */
-  border-radius: 10000000000000000px; /* hack to produce a perfect pill on rectangular elements */
+  flex: 1 0 auto; /* ensures toggle control never shrinks below its base width */
+  border-radius: 10000000000000000px;
   background-color: var(--switch-bg);
   transition: background-color 0.4s ease-in-out;
   position: relative; /* for positioning toggle control knob */
