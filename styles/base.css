@@ -68,6 +68,8 @@ a {
   --blue: hsl(209 23% 22%);
   --dark-blue: hsl(207 26% 17%);
   --very-dark-blue: hsl(200 15% 8%);
+  --bright-red: hsl(0 77% 47%);
+  --dusted-red: hsl(0 76% 69%);
 }
 
 :root[data-theme="light"] {
@@ -78,7 +80,7 @@ a {
   --skip-bg: var(--very-light-blue);
   --search-focus: var(--light-blue);
   --search-bg: var(--white);
-  --error-txt: hsl(0 77% 47%);
+  --error-txt: var(--bright-red);
 }
 
 :root[data-theme="dark"] {
@@ -89,7 +91,7 @@ a {
   --skip-bg: var(--blue);
   --search-focus: var(--very-light-gray);
   --search-bg: var(--dark-blue);
-  --error-txt: hsl(0 76% 69%);
+  --error-txt: var(--dusted-red);
 }
 
 html, body {
@@ -109,6 +111,8 @@ body {
   padding: 0 var(--base-spacing);
 }
 
+/* HEADER */
+/* Skip Link */
 [data-skip] {
   position: absolute;
   left: 0;
@@ -120,8 +124,8 @@ body {
   line-height: 1;
   cursor: pointer;
   z-index: 3;
-  transform: translateY(-50rem);
-  transition: transform 0.55s ease-in-out;
+  transform: translateY(-100%);
+  transition: transform 0.3s ease-in-out;
 }
 
 [data-skip]:focus {
@@ -137,7 +141,7 @@ header {
 
 /* Logo */
 .logo {
-  --logo-size: 2.75rem;
+  --logo-size: 2.7rem;
   grid-column: 1 / 2;
   align-self: center;
   width: var(--logo-size);
@@ -154,8 +158,8 @@ header {
 }
 
 .logo:hover, .logo a:focus {
-  outline: 1px solid var(--elem-border);
-  outline-offset: 2px;
+  outline: 0.1rem solid var(--elem-border);
+  outline-offset: 0.2rem;
 }
 
 /* removes focus styling for mouse users on browsers that support :focus-visible */
@@ -164,7 +168,7 @@ header {
   outline-offset: 0;
 }
 
-/* Theme Widget */
+/* Theme Switch */
 button.theme-toggle {
   grid-column: 2 / -1;
   justify-self: end;
@@ -176,8 +180,8 @@ button.theme-toggle {
 }
 
 /* custom properties aren't inherited by pseudo-elements */
-button.theme-toggle::before, button.theme-toggle::after, .toggle-ctrl::before, .toggle-ctrl, .toggle-ctrl::after {
-  --theme-ctrl-size: 2.4rem
+button.theme-toggle::before, button.theme-toggle::after, .toggle-ctrl::before, .toggle-ctrl {
+  --theme-toggle-size: 2.4rem;
 }
 
 /* button.theme-toggle::before for hover styling, button.theme-toggle::after for focus styling */
@@ -190,7 +194,7 @@ button.theme-toggle::before, button.theme-toggle::after, .toggle-ctrl::before, .
   --switch-knob-border: var(--dark-blue);
 }
 
-[data-theme="dark"] button.theme-toggle::before, [data-theme="dark"] button.theme-toggle::after, [data-theme="dark"] .toggle-ctrl::before, [data-theme="dark"] .toggle-ctrl, [data-theme="dark"] .toggle-ctrl::after {
+[data-theme="dark"] button.theme-toggle::before, [data-theme="dark"] button.theme-toggle::after, [data-theme="dark"] .toggle-ctrl::before, [data-theme="dark"] .toggle-ctrl {
   --very-light-gray: hsl(0 0% 100% / 75%);
   --dark-gray: hsl(0 0% 40%);
   --switch-bg: var(--very-light-gray);
@@ -204,14 +208,15 @@ button.theme-toggle::before, button.theme-toggle::after {
   content: "";
   position: absolute;
   /* top and left of auto ensures button pseudo-elements fit over toggle control */
-  width: calc(var(--theme-ctrl-size) * 2);
-  height: var(--theme-ctrl-size);
+  width: calc(var(--theme-toggle-size) * 2);
+  height: var(--theme-toggle-size);
+  border-radius: 10000000000000000px; /* hack to produce a perfect pill on rectangular elements */
+  border: 0.2rem solid transparent; /* for contrast themes */
   z-index: 2;
 }
 
 button.theme-toggle:hover::before, button.theme-toggle:focus::after {
-  border: 0.5rem double var(--switch-border);
-  border-radius: 10000000000000000px; /* hack to produce a perfect pill on rectangular elements */
+  border: 0.5rem double var(--switch-border); 
 }
 
 /* ensures no focus styling from mouse click in browsers that support focus-visible, as hover styling is visible */
@@ -220,8 +225,8 @@ button.theme-toggle:focus:not(:focus-visible)::after {
 }
 
 .toggle-ctrl {
-  width: calc(var(--theme-ctrl-size) * 2);
-  height: var(--theme-ctrl-size);
+  width: calc(var(--theme-toggle-size) * 2);
+  height: var(--theme-toggle-size);
   flex: 1 0 auto; /* ensures toggle control never shrinks below its base width */
   border-radius: 10000000000000000px;
   background-color: var(--switch-bg);
@@ -235,8 +240,8 @@ button.theme-toggle:focus:not(:focus-visible)::after {
   position: absolute;
   top: 0;
   left: 0;
-  width: var(--theme-ctrl-size);
-  height: var(--theme-ctrl-size);
+  width: var(--theme-toggle-size);
+  height: var(--theme-toggle-size);
   background-color: var(--switch-knob-bg);
   border: 0.5rem double var(--switch-knob-border);
   border-radius: 50%;
@@ -244,7 +249,7 @@ button.theme-toggle:focus:not(:focus-visible)::after {
 }
 
 button.theme-toggle[aria-pressed="true"] .toggle-ctrl::before {
-  transform: translateX(var(--theme-ctrl-size));
+  transform: translateX(var(--theme-toggle-size));
   transition: transform 0.4s ease-in-out;
 }
 
@@ -253,23 +258,85 @@ button.theme-toggle[aria-pressed="false"] .toggle-ctrl::before {
   transition: transform 0.4s ease-in-out;
 }
 
-@media screen and (prefers-reduced-motion: reduce) {
-  button.theme-toggle[aria-pressed] .toggle-ctrl::before, .toggle-ctrl {
-    transition: none;
-  }
+/* Search Widget */
+.search-widget {
+  --search-btn-size: 3rem;
+  --search-widget-vertical-spacing: calc(var(--base-spacing) * 0.4);
+  --search-widget-horizontal-spacing: var(--base-spacing);
+  grid-column: 1 / -1;
+  background-color: var(--elem-bg);
+  border: 0.1rem solid var(--elem-border);
+  border-radius: 10000000000000000px;
+  padding: var(--search-widget-vertical-spacing) var(--search-widget-horizontal-spacing);
+  display: flex;
+  align-items: center; /* to support WCAG 1.4.4 on a 320px viewport */
 }
 
-/* Main */
+.search-widget search-combobox {
+  flex: 1 1 0px;
+}
+
+.search-widget button[type="submit"] {
+  width: var(--search-btn-size);
+  height: var(--search-btn-size);
+  cursor: pointer;
+  position: relative; /* allows for positioning of ::after for hover styling */
+}
+
+/* allows for button hover styling distinct from focus styling so focus-visible can be utilized in supporting browsers */
+.search-widget button[type="submit"]::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.search-widget button[type="submit"]:hover::after, .search-widget button[type="submit"]:focus {
+  outline: 0.2rem solid var(--search-focus);
+}
+
+.search-widget button[type="submit"]:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.search-widget button[type="submit"] svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ensures custom properties cascade into svg from <use> */
+[data-theme="light"] use.search-icon {
+  --icon-bg-color: var(--white);
+  --icon-color: var(--dark-blue);
+}
+
+[data-theme="dark"] use.search-icon {
+  --icon-bg-color: var(--blue);
+  --icon-color: var(--very-light-gray);
+}
+
+/* MAIN */
 main h1 {
   padding: var(--base-spacing) 0;
   font-size: calc(var(--base-font-size) * 1.5);
 }
 
-/* Footer */
+/* FOOTER */
 footer {
   text-align: center;
 }
 
 small {
   font-size: calc(var(--base-font-size) * 0.75);
+}
+
+/* ACCESSIBILITY QUERIES */
+@media screen and (forced-colors: active) {
+  use.search-icon, [data-theme="light"] use.search-icon, [data-theme="dark"] use.search-icon {
+    --icon-bg-color: Canvas;
+    --icon-color: CanvasText;
+  }
 }

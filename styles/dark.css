@@ -6,7 +6,7 @@
   --skip-bg: var(--blue);
   --search-focus: var(--very-light-gray);
   --search-bg: var(--dark-blue);
-  --error-txt: hsl(0 76% 69%);
+  --error-txt: var(--dusted-red);
 }
 
 /* custom properties aren't inherited by pseudo-elements */
@@ -17,4 +17,10 @@ button.theme-toggle::before, button.theme-toggle::after, .toggle-ctrl::before, .
   --switch-border: var(--dark-gray);
   --switch-knob-bg: var(--dark-gray);
   --switch-knob-border: var(--very-light-gray);
+}
+
+/* ensures custom properties cascade into svg from <use> */
+use.search-icon {
+  --icon-bg-color: var(--blue);
+  --icon-color: var(--very-light-gray);
 }
