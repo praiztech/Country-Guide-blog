@@ -27,7 +27,8 @@ searchForm.addEventListener('submit', (evt) => {
 }, true);
 
 /*
- * used instead HTML alternative coz #fragment are used to designate the website pages and define each page title
+ * used evt handling instead of HTML coz 
+ * #fragment are used to designate the website pages and define each page title
  * and the skip link #fragment messes with this paging format
  */
 document.querySelector('a[data-skip]').addEventListener('click', (evt) => {
