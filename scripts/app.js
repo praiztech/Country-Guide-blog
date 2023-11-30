@@ -36,6 +36,18 @@ document.querySelector('a[data-skip]').addEventListener('click', (evt) => {
   document.querySelector('h1').focus();
 });
 
+
+document.querySelector('.content').addEventListener('fetch', (evt) => {
+  if (evt.detail === 'success') {
+    // click page 1 button?
+  } else {
+    // provide user feedback on fetch error
+  }
+})
+
+suggestionsNotifier.addEventListener('announce', (evt) => {
+  evt.target.textContent = evt.detail;
+});
 /*
 let response = await fetch('https://restcountries.com/v3.1/all');
 let country = 'uk'; //check name.common, altSpellings.includes() to identify specific country from multiple results
