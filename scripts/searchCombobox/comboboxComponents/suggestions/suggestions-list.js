@@ -77,8 +77,10 @@ function closeSuggestionsList(suggestionsList, comboboxInput) {
 
 function handleSuggestionsListDisplay(comboboxInput) {
   const [suggestionsList, suggestionsListIsClosed] = getSuggestionsListRef(comboboxInput);
-  const suggestionsArray = findCountrySuggestions(comboboxInput.value);
-  if (suggestionsArray.length === 0) { // no suggested countries
+  const suggestionsArray = (
+    comboboxInput.value !== '' && findCountrySuggestions(comboboxInput.value.normalize("NFC").toLowerCase())
+  );
+  if (!suggestionsArray || suggestionsArray.length === 0) { // no suggested countries
     !suggestionsListIsClosed && closeSuggestionsList(suggestionsList, comboboxInput);
   } else {
     (

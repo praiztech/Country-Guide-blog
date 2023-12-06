@@ -1,5 +1,5 @@
 import { appendPgBaseData } from "./page-data.js";
-import { isSovereignCountry, SearchCombobox } from "./searchCombobox/index.js";
+import { SearchCombobox } from "./searchCombobox/index.js";
 
 customElements.define('search-combobox', SearchCombobox);
 
@@ -17,6 +17,7 @@ searchForm.addEventListener('submit', (evt) => {
     );
   }
   if (validatedSearchValue.length === 0 || !isSovereignCountry(validatedSearchValue)) {
+    //TODO: fix isSovereignCountry use to validate search value
     combobox.error = searchValue; // ensures error text exactly reflects user input
   } else {
     location.assign(`./details.html#${validatedSearchValue}`);
