@@ -4,7 +4,7 @@
   let message;
   try {
     if (!sessionStorage.getItem("baseData")) { // prevents base data fetch when browser is refreshed in the same session
-      const response = await fetch('https://restcountries.com/v3.1/independent?status=true&fields=name,flags');
+      const response = await fetch('https://restcountries.com/v3.1/independent?status=true&fields=name,altSpellings,flags');
       if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
       const data = await response.json();
       const collator = Intl.Collator('ro', {sensitivity: 'base'});
