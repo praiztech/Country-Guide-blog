@@ -42,7 +42,13 @@ document.querySelector('.content').addEventListener('fetch', (evt) => {
   if (evt.detail === 'success') {
     appendPgBaseData(1);
     document.querySelector('.content').removeAttribute('hidden'); // displays page content
-  } // provide user feedback on fetch error
+  } else {
+    const errorMsg = document.createElement('div');
+    errorMsg.classList.add('fetch-error');
+    errorMsg.innerHTML = `<p>
+    There was a problem loading the page. ${evt.detail}
+    </p>`;
+  }
 });
 
 
