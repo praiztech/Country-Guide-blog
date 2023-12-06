@@ -15,7 +15,7 @@ export function findCountrySuggestions(searchValue) {
   for (const country of sovereignCountries) {
     const countryName = country.name.common;
     // collator.compare() instead of string.startswith() to account for non-ascii characters eg in são tomé and príncipe
-    if (collator.compare(searchValue, countryName.slice(0, searchValue.length)) === 0) {
+    if (collator.compare(searchValue, countryName.toLowerCase().slice(0, searchValue.length)) === 0) {
       suggestedCountries.push(countryName);
       if (!matchStart) matchStart = true; // first match
     } else {
