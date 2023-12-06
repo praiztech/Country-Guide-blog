@@ -1,4 +1,4 @@
-import { findCountrySuggestions } from "./countries.js";
+import { findCountrySuggestions } from "./suggested-countries.js";
 import { removeVisualFocus, handleKeypressAddVisualFocus, handlePointerDisplayVisualFocus } from "./visual-focus.js";
 
 function getSuggestionsListRef(node) {
