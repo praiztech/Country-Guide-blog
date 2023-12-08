@@ -7,14 +7,14 @@ export function appendPgBaseData(pageNo) {
   
   const pageData = new DocumentFragment();
   for (let i = dataStart; i <= dataEnd; i++) {
-    const countryData = baseData[i];
+    const country = baseData[i];
     const dataPoint = document.createElement('li');
     dataPoint.innerHTML = `
       <a>
         <div class="country-flag-wrapper">
-          <img src="${countryData.flags.svg}" alt=""/>
+          <img src="${country.flags.svg}" alt=""/>
         </div>
-        <div class="country-name">${countryData.name.common}</div>
+        <div class="country-name">${country.name.common}</div>
       </a>
     `;
     pageData.append(dataPoint);

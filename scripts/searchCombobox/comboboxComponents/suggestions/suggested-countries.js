@@ -11,8 +11,8 @@ export function findCountrySuggestions(searchValue) {
   let matchStart = false;
 
   // uses for...of instead of array.reduce() to allow conditional iteration exit
-  const sovereignCountries = JSON.parse(sessionStorage.getItem("baseData"));
-  for (const country of sovereignCountries) {
+  const baseData = JSON.parse(sessionStorage.getItem("baseData"));
+  for (const country of baseData) {
     const countryName = country.name.common;
     // collator.compare() instead of string.startswith() to account for non-ascii characters eg in são tomé and príncipe
     if (collator.compare(searchValue, countryName.toLowerCase().slice(0, searchValue.length)) === 0) {
