@@ -46,9 +46,10 @@ document.querySelector('.content').addEventListener('fetch', (evt) => {
   } else {
     const errorMsg = document.createElement('div');
     errorMsg.classList.add('fetch-error');
-    errorMsg.innerHTML = `<p>
-    There was a problem loading the page. ${evt.detail}
-    </p>`;
+    errorMsg.innerHTML = `
+    <p>There was a problem loading the page. ${evt.detail}</p>
+    `;
+    evt.target.replaceWith(errorMsg);
   }
 });
 
