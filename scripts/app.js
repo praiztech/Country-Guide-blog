@@ -6,26 +6,38 @@ customElements.define('search-combobox', SearchCombobox);
 const [searchForm] = document.forms;
 searchForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  // currentTarget to account for submit event dispatched on combobox
-  const combobox = evt.currentTarget.firstElementChild;
-  const searchValue = combobox.value;
-  let validatedSearchValue = '';
-  if (searchValue.length > 0) {
-    validatedSearchValue = ( // normalize() for são tomé and príncipe
-      searchValue.normalize("NFC").toLowerCase().split(' ')
-      .map((word) => word.replace(/[^a-z\u00e3\u00e9\u00ed]/g, '')).join(' ')
-    );
-  }
-  if (validatedSearchValue.length === 0 || !isSovereignCountry(validatedSearchValue)) {
-    //TODO: fix isSovereignCountry use to validate search value
-    combobox.error = searchValue; // ensures error text exactly reflects user input
-  } else {
-    location.assign(`./details.html#${validatedSearchValue}`);
-  }
+
   /*
    * as submit events dont bubble, event handling in the capturing phase ensures that this event handler
-   * is triggered ffg submit event dispatch on combobox
+   * is triggered ffg submit event dispatch on combobox; currentTarget used 4 same reason
    */
+  const combobox = evt.currentTarget.firstElementChild;
+  const searchValue = combobox.value;
+  const normalizedSearchValue = (
+    searchValue && searchValue.normalize("NFC").toLowerCase().split(' ').map(
+      (word) => word.replace(/[^a-z\u00e3\u00e9\u00ed]/g, '')
+      ).join(' ')
+  );
+  const validatedSearchValue = (
+    normalizedSearchValue && validatedCountryName(normalizedSearchValue)
+  );
+  (
+    validatedSearchValue ?
+    location.assign(`./details.html#${validatedSearchValue}`) :
+    combobox.error = searchValue // ensures error text exactly reflects user input
+  );
+
+  function validatedCountryName(countryName) {
+    const baseData = JSON.parse(sessionStorage.getItem("baseData"));
+    for (country of baseData) {
+      if (
+        country.name.common.toLowerCase() === countryName ||
+        country.name.official.toLowerCase() === countryName ||
+        country.altSpellings.slice(1).toLowerCase() == countryName
+      ) return countryName;
+    }
+    return false;
+  }
 }, true);
 
 /*
