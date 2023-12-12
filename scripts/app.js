@@ -53,8 +53,8 @@ document.querySelector('a[data-skip]').addEventListener('click', (evt) => {
 
 document.querySelector('.content').addEventListener('fetch', (evt) => {
   if (evt.detail === 'success') {
-    const pgUrl = decodeURIComponent(location.hash.slice(1));
-    const page = pgUrl === '' ? 1 : pgUrl.slice(4);
+    const pgUrl = location.hash;
+    const page = pgUrl === '' ? 1 : pgUrl.slice(5);
     appendPgBaseData(page);
     document.querySelector('.content').removeAttribute('hidden'); // displays page content
   } else {
@@ -65,6 +65,12 @@ document.querySelector('.content').addEventListener('fetch', (evt) => {
     `;
     evt.target.replaceWith(errorMsg);
   }
+});
+
+window.addEventListener('hashchange', (evt) => {
+  const [, pgUrl] = evt.newURL.split('#');
+  appendPgBaseData(pgUrl.slice(4));
+  // TODO: change page title
 });
 
 

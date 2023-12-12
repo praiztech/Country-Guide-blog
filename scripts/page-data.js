@@ -19,5 +19,7 @@ export function appendPgBaseData(page) {
     `;
     pageData.append(dataPoint);
   }
-  document.getElementById('countries-list').append(pageData);
+  const countriesList = document.getElementById('countries-list');
+  while (countriesList.childElementCount > 0) countriesList.lastElementChild.remove();
+  countriesList.append(pageData);
 }
