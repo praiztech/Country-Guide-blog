@@ -53,7 +53,9 @@ document.querySelector('a[data-skip]').addEventListener('click', (evt) => {
 
 document.querySelector('.content').addEventListener('fetch', (evt) => {
   if (evt.detail === 'success') {
-    appendPgBaseData(1);
+    const pgUrl = decodeURIComponent(location.hash.slice(1));
+    const page = pgUrl === '' ? 1 : pgUrl.slice(4);
+    appendPgBaseData(page);
     document.querySelector('.content').removeAttribute('hidden'); // displays page content
   } else {
     const errorMsg = document.createElement('div');

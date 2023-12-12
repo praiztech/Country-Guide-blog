@@ -1,7 +1,7 @@
-export function appendPgBaseData(pageNo) {
+export function appendPgBaseData(page) {
   const countriesPerPage = 20;
-  const dataStart = (pageNo - 1) * countriesPerPage;
-  const dataEnd = pageNo * countriesPerPage - 1;
+  const dataStart = (page - 1) * countriesPerPage;
+  const dataEnd = page * countriesPerPage - 1;
 
   const baseData = JSON.parse(sessionStorage.getItem("baseData"));
   
