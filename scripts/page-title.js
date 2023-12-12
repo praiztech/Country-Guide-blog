@@ -2,7 +2,7 @@
 (function() {
   try {
     const page = decodeURIComponent(location.hash.slice(1));
-    if (page === '') {
+    if (page === '') { // homepage root
       document.title = 'Where in the World?';
     } else {
       switch (location.pathname) { //parent page
@@ -14,12 +14,12 @@
           );
           document.title = `${prefix} - Where in the World?`;
           break;
-        default: //index.html
+        default: //homepage
           document.title = `Page ${page.slice(4)} - Where in the World?`;
           break;
       }
     }
-  } catch (error) {
+  } catch (error) { // if page in url doesn't exist
     document.title = 'Where in the World?';
   }
 })();
