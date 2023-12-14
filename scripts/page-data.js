@@ -10,7 +10,7 @@ export function appendPgBaseData(page) {
     const country = baseData[i];
     const dataPoint = document.createElement('li');
     dataPoint.innerHTML = `
-      <a>
+      <a href=/details.html#${country.name.common.replaceAll(' ', '').toLowerCase()}>
         <div class="country-flag-wrapper">
           <img src="${country.flags.svg}" alt=""/>
         </div>
