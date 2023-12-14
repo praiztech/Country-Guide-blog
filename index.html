@@ -49,7 +49,48 @@
     <main>
       <h1>Where in the World?</h1>
       <ul id="countries-list"></ul>
-      <nav aria-label="Pagination"></nav>
+      <nav aria-label="Pagination">
+        <ul role="list">
+          <li>
+            <a href="#page1">
+              <span data-visually-hidden>First Page</span>
+              <svg viewBox="0 0 1024 1024" aria-hidden="true">
+                <use href="/images/icons.svg#doubleArrowIcon" class="left-icons"/>
+              </svg>
+            </a>
+          </li>
+          <li>
+            <a>
+              <span data-visually-hidden>Previous Page</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <use href="/images/icons.svg#arrowIcon" class="left-icons"/>
+              </svg>
+            </a>
+          </li>
+          <li>
+            <a aria-current="page">
+              <span data-visually-hidden>Page</span>
+              <span id="current"></span>
+            </a>
+          </li>
+          <li>
+            <a>
+              <span data-visually-hidden>Next Page</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <use href="/images/icons.svg#arrowIcon" class="right-icons"/>
+              </svg>
+            </a>
+          </li>
+          <li>
+            <a>
+              <span data-visually-hidden>Last Page</span>
+              <svg viewBox="0 0 1024 1024" aria-hidden="true">
+                <use href="/images/icons.svg#doubleArrowIcon" class="right-icons"/>
+              </svg>
+            </a>
+          </li>
+        </ul>
+      </nav>
     </main>
     <footer>
       <small>&copy; 2023 PraizTech. All rights reserved.</small>
