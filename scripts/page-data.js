@@ -1,7 +1,8 @@
 export function appendPgBaseData(page) {
+  const currPage = Number(page);
   const countriesPerPage = 20;
-  let dataStart = (page - 1) * countriesPerPage;
-  let dataEnd = page * countriesPerPage - 1;
+  let dataStart = (currPage - 1) * countriesPerPage;
+  let dataEnd = currPage * countriesPerPage - 1;
 
   const baseData = JSON.parse(sessionStorage.getItem("baseData"));
   const lastDataIndex = baseData.length - 1;
@@ -26,6 +27,13 @@ export function appendPgBaseData(page) {
   const countriesList = document.getElementById('countries-list');
   while (countriesList.childElementCount > 0) countriesList.lastElementChild.remove();
   countriesList.append(pageData);
+  
+  const currPageLink = document.getElementById('curr-page');
+  currPageLink.href = `#page${currPage}`;
+  currPageLink.lastElementChild.textContent = currPage;
+  document.getElementById('prev-page').href = `#page${currPage-1}`;
+  document.getElementById('next-page').href = `#page${currPage+1}`;
+
   // not hardcoding no of pages coz base data length can change
   return Math.ceil(baseData.length / countriesPerPage);
 }
