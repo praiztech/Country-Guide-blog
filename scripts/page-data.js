@@ -1,9 +1,13 @@
 export function appendPgBaseData(page) {
   const countriesPerPage = 20;
-  const dataStart = (page - 1) * countriesPerPage;
-  const dataEnd = page * countriesPerPage - 1;
+  let dataStart = (page - 1) * countriesPerPage;
+  let dataEnd = page * countriesPerPage - 1;
 
   const baseData = JSON.parse(sessionStorage.getItem("baseData"));
+  const lastDataIndex = baseData.length - 1;
+  if (lastDataIndex < dataEnd) {
+    dataEnd = lastDataIndex;
+  } 
   
   const pageData = new DocumentFragment();
   for (let i = dataStart; i <= dataEnd; i++) {
