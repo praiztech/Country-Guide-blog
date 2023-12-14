@@ -22,4 +22,6 @@ export function appendPgBaseData(page) {
   const countriesList = document.getElementById('countries-list');
   while (countriesList.childElementCount > 0) countriesList.lastElementChild.remove();
   countriesList.append(pageData);
+  // not hardcoding no of pages coz base data length can change
+  return Math.ceil(baseData.length / countriesPerPage);
 }
