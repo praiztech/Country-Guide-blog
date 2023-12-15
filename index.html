@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="/styles/base.css">
   <script type="module" src="/scripts/theme.js"></script>
   <script type="module" src="/scripts/app.js"></script>
+  <script type="module" src="/scripts/index-hashchange.js"></script>
   <script nomodule>
     document.body.style.fontSize = '25px';
     document.body.innerHTML = "<p>This website won't work properly in the current version of this browser. Please update your browser to view the page. Note that this site can't be viewed on Internet Explorer.</p>";
@@ -24,7 +25,7 @@
   <noscript>
     <p>This website doesn't work without JavaScript. Please enable JavaScript to view the page.</p>
   </noscript>
-  <div class="content" hidden>
+  <div class="content" tabindex="-1" hidden>
     <a href="#" data-skip>Skip to Content</a>
     <!--evt handler handles content skip, see app.js-->
     <header>
@@ -95,6 +96,7 @@
     <footer>
       <small>&copy; 2023 PraizTech. All rights reserved.</small>
     </footer>
+    <div id="title-announcer" role="alert"></div>
   </div>
 </body>
 </html>

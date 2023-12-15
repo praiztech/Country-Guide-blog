@@ -55,7 +55,7 @@ document.querySelector('.content').addEventListener('fetch', (evt) => {
   if (evt.detail === 'success') {
     const pgUrl = location.hash;
     const page = pgUrl === '' ? 1 : pgUrl.slice(5);
-    const lastPage = appendPgBaseData(page);
+    const [, lastPage] = appendPgBaseData(page);
     document.getElementById('last-page').href = `#page${lastPage}`;
     document.querySelector('.content').removeAttribute('hidden'); // displays page content
   } else {
@@ -66,12 +66,6 @@ document.querySelector('.content').addEventListener('fetch', (evt) => {
     `;
     evt.target.replaceWith(errorMsg);
   }
-});
-
-window.addEventListener('hashchange', (evt) => {
-  const [, pgUrl] = evt.newURL.split('#');
-  appendPgBaseData(pgUrl.slice(4));
-  // TODO: change page title
 });
 
 

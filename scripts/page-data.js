@@ -35,5 +35,5 @@ export function appendPgBaseData(page) {
   document.getElementById('next-page').href = `#page${currPage+1}`;
 
   // not hardcoding last page incase base data length changes
-  return lastPage;
+  return [currPage, lastPage];
 }
