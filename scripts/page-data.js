@@ -1,14 +1,14 @@
 export function appendPgBaseData(page) {
-  const currPage = Number(page);
   const countriesPerPage = 20;
-  let dataStart = (currPage - 1) * countriesPerPage;
-  let dataEnd = currPage * countriesPerPage - 1;
-
   const baseData = JSON.parse(sessionStorage.getItem("baseData"));
   const lastDataIndex = baseData.length - 1;
-  if (lastDataIndex < dataEnd) {
-    dataEnd = lastDataIndex;
-  } 
+  const lastPage = Math.ceil(baseData.length / countriesPerPage);
+  const currPage = Number(page); // ensures next page computation is addition not concatenation
+  if (isNaN(currPage) || currPage > lastPage) currPage = 1; // if page in url doesn't exist, load root page
+
+  let dataStart = (currPage - 1) * countriesPerPage;
+  let dataEnd = currPage * countriesPerPage - 1;
+  if (lastDataIndex < dataEnd) dataEnd = lastDataIndex;
   
   const pageData = new DocumentFragment();
   for (let i = dataStart; i <= dataEnd; i++) {
@@ -34,6 +34,6 @@ export function appendPgBaseData(page) {
   document.getElementById('prev-page').href = `#page${currPage-1}`;
   document.getElementById('next-page').href = `#page${currPage+1}`;
 
-  // not hardcoding no of pages coz base data length can change
-  return Math.ceil(baseData.length / countriesPerPage);
+  // not hardcoding last page incase base data length changes
+  return lastPage;
 }
