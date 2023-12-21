@@ -55,8 +55,7 @@ document.querySelector('.content').addEventListener('fetch', (evt) => {
   if (evt.detail === 'success') {
     const pgUrl = location.hash;
     const page = pgUrl === '' ? 1 : pgUrl.slice(5);
-    const [, lastPage] = appendPgBaseData(page);
-    document.getElementById('last-page').href = `#page${lastPage}`;
+    appendPgBaseData(page);
     document.querySelector('.content').removeAttribute('hidden'); // displays page content
   } else {
     const errorMsg = document.createElement('div');

@@ -51,9 +51,9 @@
       <h1>Where in the World?</h1>
       <ul id="countries-list"></ul>
       <nav aria-label="Pagination">
-        <ul role="list">
+        <ul><!--role='list' not reqd 4 VO to preserve list semantics in <nav> with list-style-type:none-->
           <li>
-            <a href="#page1">
+            <a>
               <span data-visually-hidden>First Page</span>
               <svg viewBox="0 0 1024 1024" aria-hidden="true">
                 <use href="/images/icons.svg#doubleArrowIcon" class="left-icons"/>
@@ -61,7 +61,7 @@
             </a>
           </li>
           <li>
-            <a id="prev-page">
+            <a>
               <span data-visually-hidden>Previous Page</span>
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <use href="/images/icons.svg#arrowIcon" class="left-icons"/>
@@ -69,13 +69,13 @@
             </a>
           </li>
           <li>
-            <a id="curr-page" aria-current="page">
+            <a aria-current="page">
               <span data-visually-hidden>Page</span>
               <span></span>
             </a>
           </li>
           <li>
-            <a id="next-page">
+            <a>
               <span data-visually-hidden>Next Page</span>
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <use href="/images/icons.svg#arrowIcon" class="right-icons"/>
@@ -83,7 +83,7 @@
             </a>
           </li>
           <li>
-            <a id="last-page">
+            <a>
               <span data-visually-hidden>Last Page</span>
               <svg viewBox="0 0 1024 1024" aria-hidden="true">
                 <use href="/images/icons.svg#doubleArrowIcon" class="right-icons"/>
