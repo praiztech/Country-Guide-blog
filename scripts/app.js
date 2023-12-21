@@ -52,16 +52,17 @@ document.querySelector('a[data-skip]').addEventListener('click', (evt) => {
 
 
 document.querySelector('.content').addEventListener('fetch', (evt) => {
-  if (evt.detail === 'success') {
-    const pgUrl = location.hash;
-    const page = pgUrl === '' ? 1 : pgUrl.slice(5);
-    appendPgBaseData(page);
+  if (evt.detail.status === 'success') {
+    const data = JSON.parse(window.sessionStorage.getItem("baseData")) ?? evt.detail?.data;
+    const page = location.hash === '' ? 1 : location.hash.slice(5);
+    appendPgBaseData(page, data);
     document.querySelector('.content').removeAttribute('hidden'); // displays page content
+    window.sessionStorage.setItem("baseData", JSON.stringify(data));
   } else {
     const errorMsg = document.createElement('div');
     errorMsg.classList.add('fetch-error');
     errorMsg.innerHTML = `
-    <p>There was a problem loading the page. ${evt.detail}</p>
+    <p>There was a problem loading the page. ${evt.detail.status}</p>
     `;
     evt.target.replaceWith(errorMsg);
   }

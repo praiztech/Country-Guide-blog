@@ -1,8 +1,6 @@
-export function appendPgBaseData(page) {
+export function appendPgBaseData(page, baseData) {
   const countriesPerPage = 20;
-  const baseData = JSON.parse(sessionStorage.getItem("baseData"));
   const lastDataIndex = baseData.length - 1;
-
   let lastPage = Math.ceil(baseData.length / countriesPerPage);
   let currPage = Number(page); // ensures next page computation is addition not concatenation
   if (isNaN(currPage) || currPage > lastPage) currPage = 1; // if page in url doesn't exist, load root page
