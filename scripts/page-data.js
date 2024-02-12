@@ -5,8 +5,7 @@ export function appendPgBaseData(page, baseData) {
   let currPage = Number(page); // ensures next page computation is addition not concatenation
   if (isNaN(currPage) || currPage > lastPage) currPage = 1; // if page in url doesn't exist, load root page
   let dataStart = (currPage - 1) * countriesPerPage;
-  let dataEnd = currPage * countriesPerPage - 1;
-  if (lastDataIndex < dataEnd) dataEnd = lastDataIndex;
+  let dataEnd = currPage === lastPage ? lastDataIndex : currPage * countriesPerPage - 1;
   
   const pageData = new DocumentFragment();
   for (let i = dataStart; i <= dataEnd; i++) {
