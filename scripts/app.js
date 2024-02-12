@@ -53,7 +53,8 @@ document.querySelector('a[data-skip]').addEventListener('click', (evt) => {
 
 document.querySelector('.content').addEventListener('fetch', (evt) => {
   if (evt.detail.status === 'success') {
-    const data = JSON.parse(window.sessionStorage.getItem("baseData")) ?? evt.detail?.data;
+    const storedData = window.sessionStorage.getItem("baseData");
+    const data = storedData === null ? evt.detail?.data : JSON.parse(storedData);
     const page = location.hash === '' ? 1 : location.hash.slice(5);
     appendPgBaseData(page, data);
     document.querySelector('.content').removeAttribute('hidden'); // displays page content
