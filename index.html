@@ -49,9 +49,10 @@
     </header>
     <main>
       <h1>Where in the World?</h1>
-      <ul id="countries-list"></ul>
+      <!--outside <nav>, role='list' reqd 4 VO to preserve list semantics with list-style-type:none-->
+      <ul role="list" id="countries-list"></ul>
       <nav aria-label="Pagination">
-        <ul><!--role='list' not reqd 4 VO to preserve list semantics in <nav> with list-style-type:none-->
+        <ul>
           <li>
             <a>
               <span data-visually-hidden>First Page</span>
@@ -96,7 +97,7 @@
     <footer>
       <small>&copy; 2023 PraizTech. All rights reserved.</small>
     </footer>
-    <div id="title-announcer" role="alert"></div>
+    <div id="title-announcer" role="alert" data-visually-hidden></div>
   </div>
 </body>
 </html>
