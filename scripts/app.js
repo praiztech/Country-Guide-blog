@@ -29,11 +29,15 @@ searchForm.addEventListener('submit', (evt) => {
 
   function validatedCountryName(countryName) {
     const baseData = JSON.parse(sessionStorage.getItem("baseData"));
-    for (country of baseData) {
+    for (const country of baseData) {
       if (
         country.name.common.toLowerCase() === countryName ||
         country.name.official.toLowerCase() === countryName ||
-        country.altSpellings.slice(1).toLowerCase() == countryName
+        country.altSpellings.slice(1).includes(
+          countryName.split(' ').map(
+          (word) => ['and', 'of', 'the'].includes(word) ? word : `${word[0].toUpperCase() + word.slice(1)}`
+          ).join(' ')
+        )
       ) return countryName;
     }
     return false;
