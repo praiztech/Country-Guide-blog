@@ -38,7 +38,7 @@ searchForm.addEventListener('submit', (evt) => {
           (word) => ['and', 'of', 'the'].includes(word) ? word : `${word[0].toUpperCase() + word.slice(1)}`
           ).join(' ')
         )
-      ) return countryName;
+      ) return country.name.common; // ensures consistency with homepage countries list
     }
     return false;
   }
