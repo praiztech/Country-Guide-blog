@@ -1,4 +1,4 @@
-export function appendPgBaseData(page, baseData) {
+export function appendHomepageData(page, baseData) {
   const countriesPerPage = 20;
   const lastDataIndex = baseData.length - 1;
   let lastPage = Math.ceil(baseData.length / countriesPerPage);
