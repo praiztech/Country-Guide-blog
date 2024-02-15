@@ -58,11 +58,11 @@ document.querySelector('a[data-skip]').addEventListener('click', (evt) => {
 document.querySelector('.content').addEventListener('fetch', (evt) => {
   if (evt.detail.status === 'success') {
     const storedData = sessionStorage.getItem("baseData");
-    const data = storedData === null ? evt.detail?.data : JSON.parse(storedData);
+    const data = storedData === null ? evt.detail.data : JSON.parse(storedData);
     const page = location.hash === '' ? 1 : location.hash.slice(5);
     appendHomepageData(page, data);
-    document.querySelector('.content').removeAttribute('hidden'); // displays page content
-    sessionStorage.setItem("baseData", JSON.stringify(data));
+    document.querySelector('.content').removeAttribute('hidden'); // display homepage content
+    if (storedData === null) sessionStorage.setItem("baseData", JSON.stringify(data));
   } else {
     const errorMsg = document.createElement('div');
     errorMsg.classList.add('fetch-error');
