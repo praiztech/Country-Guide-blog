@@ -1,7 +1,9 @@
 "use strict";
 
 (async () => {
-  let fetchDetails = {};
+  let fetchDetails = {
+    data: {}
+  };
   try {
     switch (location.pathname) {
       case '/details.html':
@@ -9,7 +11,8 @@
         fetchDetails.path = 'details';
         break;
       default: //homepage
-        await fetchBaseData(fetchDetails);
+        // prevent base data fetch when browser is refreshed or a different page is loaded in the same session
+        if (sessionStorage.getItem("baseData") === null) await fetchBaseData(fetchDetails);
         fetchDetails.path = 'home';
         break;
     }
@@ -29,22 +32,23 @@
 })();
 
 async function fetchBaseData(fetchDetails) {
-  // prevent base data fetch when browser is refreshed or a different home "page" is loaded in the same session
-  if (sessionStorage.getItem("baseData") !== null) return;
-
-  const response = await fetch('https://restcountries.com/v3.1/independent?status=true&fields=name,altSpellings,flags');
+  const response = await fetch('https://restcountries.com/v3.1/independent?status=true&fields=name,altSpellings,flags,cca3');
   if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
   const data = await response.json();
   const collator = Intl.Collator('ro', {sensitivity: 'base'});
   data.sort((a, b) => collator.compare(a.name.common, b.name.common));
-  fetchDetails.data = data;
+  fetchDetails.data.base = data;
 }
 
 async function fetchCountryData(fetchDetails) {
+  // base data reqd 2 display country data so fetch base data if country page is accessed directly
+  // say, from a bookmark
+  if (sessionStorage.getItem("baseData") === null) fetchBaseData(fetchDetails);
+
   const country = decodeURIComponent(location.hash.slice(1));
   const response = await fetch(`https://restcountries.com/v3.1/name/${country}`);
   if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
-  fetchDetails.data = await response.json();
+  fetchDetails.data.country = await response.json();
 }
 
 function dispatchFetchEvent(fetchDetails) {

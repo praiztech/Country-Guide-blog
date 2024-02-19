@@ -54,15 +54,22 @@ document.querySelector('a[data-skip]').addEventListener('click', (evt) => {
   document.querySelector('h1').focus();
 });
 
-
 document.querySelector('.content').addEventListener('fetch', (evt) => {
   if (evt.detail.status === 'success') {
     const storedData = sessionStorage.getItem("baseData");
-    const data = storedData === null ? evt.detail.data : JSON.parse(storedData);
-    const page = location.hash === '' ? 1 : location.hash.slice(5);
-    appendHomepageData(page, data);
-    document.querySelector('.content').removeAttribute('hidden'); // display homepage content
-    if (storedData === null) sessionStorage.setItem("baseData", JSON.stringify(data));
+    const baseData = storedData === null ? evt.detail.data.base : JSON.parse(storedData);
+    switch (evt.detail.path) {
+      case 'home':
+        const page = location.hash === '' ? 1 : location.hash.slice(5);
+        appendHomepageData(page, baseData);
+        document.querySelector('.content').removeAttribute('hidden'); // display content
+        break;
+      case 'details':
+        appendCountryData(baseData, evt.detail.data.country);
+        document.querySelector('.content').removeAttribute('hidden');
+        break;
+    }
+    if (storedData === null) sessionStorage.setItem("baseData", JSON.stringify(baseData));
   } else {
     const errorMsg = document.createElement('div');
     errorMsg.classList.add('fetch-error');
