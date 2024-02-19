@@ -1,4 +1,5 @@
 import { appendHomepageData } from "./homepage-data.js";
+import { appendCountryData } from "./country-data.js";
 import { SearchCombobox } from "./searchCombobox/index.js";
 
 customElements.define('search-combobox', SearchCombobox);
@@ -79,14 +80,3 @@ document.querySelector('.content').addEventListener('fetch', (evt) => {
     evt.target.replaceWith(errorMsg);
   }
 });
-
-
-/*
-let country = 'uk'; 
-//check name.common, altSpellings.includes() to identify specific country from multiple results
-//check with congo, guinea and sudan
-let response = await fetch(`https://restcountries.com/v3.1/name/${country}`);
-let details = await response.json();
-console.log(country);
-console.log(details);
-*/
