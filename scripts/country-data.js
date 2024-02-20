@@ -1,6 +1,4 @@
 export function appendCountryData(baseData, countryData) {
-  console.log(countryData);
-  console.log(location.hash.slice(1));
   const [country] = (
     countryData.length === 1 ? 
     countryData : 
