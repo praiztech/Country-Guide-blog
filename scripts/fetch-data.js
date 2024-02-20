@@ -5,14 +5,14 @@
     data: {}
   };
   try {
+    // fetch base data on first 'home or country' page load
+    if (sessionStorage.getItem("baseData") === null) await fetchBaseData(fetchDetails);
     switch (location.pathname) {
       case '/details.html':
         await fetchCountryData(fetchDetails);
         fetchDetails.path = 'details';
         break;
       default: //homepage
-        // prevent base data fetch when browser is refreshed or a different page is loaded in the same session
-        if (sessionStorage.getItem("baseData") === null) await fetchBaseData(fetchDetails);
         fetchDetails.path = 'home';
         break;
     }
@@ -41,10 +41,6 @@ async function fetchBaseData(fetchDetails) {
 }
 
 async function fetchCountryData(fetchDetails) {
-  // base data reqd 2 display country data so fetch base data if country page is accessed directly
-  // say, from a bookmark
-  if (sessionStorage.getItem("baseData") === null) fetchBaseData(fetchDetails);
-
   const country = decodeURIComponent(location.hash.slice(1));
   const response = await fetch(`https://restcountries.com/v3.1/name/${country}`);
   if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
