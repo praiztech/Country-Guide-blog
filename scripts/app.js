@@ -22,11 +22,21 @@ searchForm.addEventListener('submit', (evt) => {
   const validatedSearchValue = (
     normalizedSearchValue && validatedCountryName(normalizedSearchValue)
   );
-  (
-    validatedSearchValue ?
-    location.assign(`./details.html#${encodeURIComponent(validatedSearchValue)}`) :
+  if (!validatedSearchValue) {
     combobox.error = searchValue // ensures error text exactly reflects user input
-  );
+  } else {
+    switch (location.pathname) {
+      case '/details.html':
+        // not searching for the country currently displayed
+        if (decodeURIComponent(location.hash.slice(1)) !== validatedSearchValue) {
+          location.hash = validatedSearchValue;
+        }
+        break;
+      default: //searching from homepage
+        location.assign(`./details.html#${validatedSearchValue}`);
+        break;
+    }
+  }
 
   function validatedCountryName(countryName) {
     const baseData = JSON.parse(sessionStorage.getItem("baseData"));
