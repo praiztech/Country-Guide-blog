@@ -12,7 +12,7 @@ export function appendHomepageData(page, baseData) {
     const country = baseData[i];
     const dataPoint = document.createElement('li');
     dataPoint.innerHTML = `
-      <a href=/details.html#${country.name.common.replaceAll(' ', '').toLowerCase()}>
+      <a href=/details.html#${encodeURIComponent(country.name.common)}>
         <div class="country-flag-wrapper">
           <img src="${country.flags.svg}" alt=""/>
         </div>

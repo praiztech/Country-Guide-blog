@@ -46,7 +46,7 @@ function setBorderCountries(baseData, borderCountriesCode) {
     if (borderCountriesCode.includes(country.cca3)) {
       countriesLinkArray.push(
         `
-        <a href=/details.html#${country.name.common.replaceAll(' ', '').toLowerCase()}>
+        <a href=/details.html#${encodeURIComponent(country.name.common)}>
           ${country.name.common}
         </a>
         `

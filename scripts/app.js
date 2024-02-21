@@ -24,7 +24,7 @@ searchForm.addEventListener('submit', (evt) => {
   );
   (
     validatedSearchValue ?
-    location.assign(`./details.html#${validatedSearchValue}`) :
+    location.assign(`./details.html#${encodeURIComponent(validatedSearchValue)}`) :
     combobox.error = searchValue // ensures error text exactly reflects user input
   );
 
