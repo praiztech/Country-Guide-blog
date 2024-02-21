@@ -25,7 +25,7 @@ export function appendCountryData(baseData, countryData) {
       <p>Region: ${country.region}</p>
       <p>Sub-region: ${country.subregion}</p>
       <p>Capital: ${country.capital[0]}</p>
-      <p>Population: ${country.population}</p>
+      <p>Population: ${Number(country.population).toLocaleString()}</p>
       <p>Language(s): ${Object.values(country.languages).join(', ')}</p>
       <p>Currency: ${setCurrency(country.currencies)}</p>
       ${setBorderCountries(baseData, country.borders)}
