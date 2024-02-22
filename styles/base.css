@@ -324,6 +324,41 @@ main h1 {
   font-size: calc(var(--base-font-size) * 1.5);
 }
 
+/* PAGINATION NAV */
+[aria-label="Pagination"] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+[aria-label="Pagination"] ul {
+  display: flex;
+}
+
+[aria-label="Pagination"] a {
+  --page-link-size: calc(var(--base-font-size) * 2.75);
+  display: block;
+  width: var(--page-link-size);
+  height: var(--page-link-size);
+}
+
+[aria-label="Pagination"] a[aria-current="page"] {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: calc(var(--base-font-size) * 1.5);
+}
+
+[aria-label="Pagination"] svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+[aria-label="Pagination"] use.rotate {
+  --rotation-angle: 180deg;
+}
+
 /* FOOTER */
 footer {
   text-align: center;
