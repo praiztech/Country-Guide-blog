@@ -125,9 +125,16 @@ body {
 
 header {
   padding: calc(var(--base-spacing) * 0.8) 0;
+}
+
+.small-banner {
   display: grid;
   grid-template-columns: auto 1fr;
   row-gap: calc(var(--base-spacing) * 1.5);
+}
+
+.large-banner {
+  display: none;
 }
 
 /* Logo */
@@ -324,6 +331,21 @@ footer {
 
 small {
   font-size: calc(var(--base-font-size) * 0.75);
+}
+
+@media screen and (min-width: 48em) {
+  .small-banner {
+    display: none;
+  }
+
+  .large-banner {
+    display: flex;
+    gap: 5%;
+  }
+
+  .search-widget {
+    flex: 1;
+  }
 }
 
 /* ACCESSIBILITY QUERIES */
