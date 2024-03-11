@@ -60,7 +60,7 @@ searchForm.addEventListener('submit', (evt) => {
  * #fragment are used to designate the website pages and define each page title
  * and the skip link #fragment messes with this paging format
  */
-document.querySelector('a[data-skip]').addEventListener('click', (evt) => {
+document.querySelector('a.skip-link').addEventListener('click', (evt) => {
   evt.preventDefault();
   document.querySelector('h1').focus();
 });

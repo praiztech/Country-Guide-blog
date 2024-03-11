@@ -104,7 +104,7 @@ body {
 
 /* HEADER */
 /* Skip Link */
-[data-skip] {
+.skip-link {
   position: absolute;
   left: 0;
   border: 0.3rem solid var(--elem-border);
@@ -119,7 +119,7 @@ body {
   transition: transform 0.3s ease-in-out;
 }
 
-[data-skip]:focus {
+.skip-link:focus {
   transform: translateY(1rem);
 }
 
