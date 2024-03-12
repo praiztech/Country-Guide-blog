@@ -13,6 +13,7 @@
   <link rel="stylesheet" media="(prefers-color-scheme: light)" href="/styles/light.css">
   <link rel="stylesheet" media="(prefers-color-scheme: dark)" href="/styles/dark.css">
   <link rel="stylesheet" href="/styles/base.css">
+  <link rel="stylesheet" href="/styles/index.css">
   <script type="module" src="/scripts/theme.js"></script>
   <script type="module" src="/scripts/app.js"></script>
   <script type="module" src="/scripts/hashchange.js"></script>
@@ -69,7 +70,7 @@
     <main>
       <h1 tabindex="-1">Where in the World?</h1>
       <!--outside <nav>, role='list' reqd 4 VO to preserve list semantics with list-style-type:none-->
-      <ul role="list" id="countries-list"></ul>
+      <ul role="list" class="countries-list"></ul>
       <nav aria-label="Pagination">
         <ul>
           <li>

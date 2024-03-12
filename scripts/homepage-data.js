@@ -13,15 +13,13 @@ export function appendHomepageData(page, baseData) {
     const dataPoint = document.createElement('li');
     dataPoint.innerHTML = `
       <a href=/details.html#${encodeURIComponent(country.name.common)}>
-        <div class="country-flag-wrapper">
-          <img src="${country.flags.svg}" alt=""/>
-        </div>
-        <div class="country-name">${country.name.common}</div>
+        <img src="${country.flags.svg}" alt=""/>
+        <span>${country.name.common}</div>
       </a>
     `;
     pageData.append(dataPoint);
   }
-  const countriesList = document.getElementById('countries-list');
+  const countriesList = document.querySelector('.countries-list');
   while (countriesList.childElementCount > 0) countriesList.lastElementChild.remove();
   countriesList.append(pageData);
   setPaginationLinks(currPage, lastPage);
