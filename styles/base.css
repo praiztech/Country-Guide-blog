@@ -125,21 +125,15 @@ body {
 
 header {
   padding: calc(var(--base-spacing) * 0.8) 0;
-}
-
-.small-banner {
   display: grid;
   grid-template-columns: auto 1fr;
   row-gap: calc(var(--base-spacing) * 1.5);
 }
 
-.large-banner {
-  display: none;
-}
-
 /* Logo */
 .logo {
   --logo-size: 2.7rem;
+  grid-row: 1 / 2;
   grid-column: 1 / 2;
   align-self: center;
   width: var(--logo-size);
@@ -168,6 +162,8 @@ header {
 
 /* Theme Switch */
 button.theme-toggle {
+  order: -1;
+  grid-row: 1 / 2;
   grid-column: 2 / -1;
   justify-self: end;
   position: relative; /* for positioning pseudo-elements for styling */
@@ -334,17 +330,17 @@ small {
 }
 
 @media screen and (min-width: 48em) {
-  .small-banner {
-    display: none;
-  }
-
-  .large-banner {
+  header {
     display: flex;
     gap: 5%;
   }
 
   .search-widget {
     flex: 1;
+  }
+
+  button.theme-toggle {
+    order: 0;
   }
 }
 
