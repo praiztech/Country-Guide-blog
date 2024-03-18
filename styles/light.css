@@ -24,3 +24,7 @@ use.search-icon {
   --icon-bg-color: var(--white);
   --icon-color: var(--dark-blue);
 }
+
+[aria-label="Pagination"] use {
+  --icon-color: var(--dark-blue);
+}

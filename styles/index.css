@@ -33,20 +33,27 @@
 
 [aria-label="Pagination"] ul {
   display: flex;
+  gap: calc(var(--base-spacing) * 0.75);
 }
 
 [aria-label="Pagination"] a {
-  --page-link-size: calc(var(--base-font-size) * 2.75);
+  --page-link-size: calc(var(--base-font-size) * 1.5);
   display: block;
   width: var(--page-link-size);
   height: var(--page-link-size);
+}
+
+[aria-label="Pagination"] a:focus-visible {
+  outline: 0.2rem solid var(--elem-border);
+  border-radius: 2%;
 }
 
 [aria-label="Pagination"] a[aria-current="page"] {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: calc(var(--base-font-size) * 1.5);
+  text-decoration: none;
+  font-size: calc(var(--page-link-size) * 0.65);
 }
 
 [aria-label="Pagination"] svg {
@@ -57,6 +64,15 @@
 
 [aria-label="Pagination"] use.rotate {
   --rotation-angle: 180deg;
+}
+
+/* ensures custom properties cascade into svg from <use> */
+[data-theme="light"] [aria-label="Pagination"] use {
+  --icon-color: var(--dark-blue);
+}
+
+[data-theme="dark"] [aria-label="Pagination"] use {
+  --icon-color: var(--very-light-gray);
 }
 
 @media screen and (min-width: 48em) {
@@ -81,10 +97,37 @@
     height: 100%;
     object-fit: cover;
   }
+
+  [aria-label="Pagination"] ul {
+    gap: var(--base-spacing);
+  }
+
+  [aria-label="Pagination"] a {
+    --page-link-size: calc(var(--base-font-size) * 2);
+  }
 }
 
 @media screen and (min-width: 75em) {
   .countries-list {
     grid-template-columns: repeat(4, 1fr);
+  }
+
+  [aria-label="Pagination"] ul {
+    gap: calc(var(--base-spacing) * 1.25);
+  }
+
+  [aria-label="Pagination"] a {
+    --page-link-size: calc(var(--base-font-size) * 2.5);
+  }
+
+  [aria-label="Pagination"] a:focus-visible {
+    outline-width: 0.3rem;
+  }
+}
+
+/* ACCESSIBILITY QUERIES */
+@media screen and (forced-colors: active) {
+  [aria-label="Pagination"] use {
+    --icon-color: CanvasText;
   }
 }

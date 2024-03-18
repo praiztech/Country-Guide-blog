@@ -67,7 +67,7 @@ button, a {
   --pg-bg: var(--light-gray);
   --pg-txt: var(--dark-blue);
   --elem-bg: var(--very-light-gray);
-  --elem-border: var(--gray);
+  --elem-border: var(--dark-gray);
   --skip-bg: var(--very-light-blue);
   --search-focus: var(--light-blue);
   --search-bg: var(--white);
