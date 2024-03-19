@@ -1,0 +1,35 @@
+/* BREADCRUMB NAV */
+[aria-label="Breadcrumb"] ol {
+  display: flex;
+  padding: var(--base-spacing) 0;
+  line-height: 1;
+}
+
+[aria-label="Breadcrumb"] li+li {
+  padding-left: calc(var(--base-spacing) * 0.75);
+}
+
+[aria-label="Breadcrumb"] li:not(:last-of-type) {
+  padding-right: calc(var(--base-spacing) * 0.75);
+  position: relative;
+}
+
+[aria-label="Breadcrumb"] li:not(:last-of-type)::after {
+  content: "";
+  position: absolute;
+  left: calc(100% - 0.2rem);
+  width: 0.2rem;
+  height: 100%;
+  background-color: currentColor;
+  transform: rotate(15deg);
+}
+
+[aria-label="Breadcrumb"] a {
+  text-decoration: none;
+}
+
+[aria-label="Breadcrumb"] a:focus-visible {
+  outline: 0.2rem solid var(--elem-border);
+  outline-offset: 0.2rem;
+  border-radius: 2%;
+}
