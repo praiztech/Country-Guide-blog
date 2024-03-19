@@ -6,7 +6,15 @@
 
 .countries-list a {
   display: block;
+  text-decoration: none;
+  line-height: 1;
   position: relative;
+}
+
+.countries-list a:focus-visible {
+  outline: 0.2rem solid var(--elem-border);
+  outline-offset: 0.2rem;
+  border-radius: 1%;
 }
 
 .countries-list img {
@@ -19,6 +27,7 @@
 .countries-list span {
   background-color: var(--pg-bg);
   padding: calc(var(--base-spacing) * 0.2) calc(var(--base-spacing) * 0.4);
+  line-height: 1.5;
   position: absolute;
   left: 5%;
   bottom: 10%;
