@@ -23,13 +23,3 @@
   background-color: currentColor;
   transform: rotate(15deg);
 }
-
-[aria-label="Breadcrumb"] a {
-  text-decoration: none;
-}
-
-[aria-label="Breadcrumb"] a:focus-visible {
-  outline: 0.2rem solid var(--elem-border);
-  outline-offset: 0.2rem;
-  border-radius: 2%;
-}

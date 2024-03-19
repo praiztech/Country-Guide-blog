@@ -18,16 +18,8 @@
   font-size: 100%;
 }
 
-ul, ol {
-  list-style-type: none;
-}
-
-button, a {
-  color: inherit;
-}
-
-/* ensures that page is only visible after content loading if css is disabled */
-[hidden] {
+/* GENERAL */
+[hidden] { /* ensures that page is only visible after content loading if css is disabled */
   display: none !important;
 }
 
@@ -43,7 +35,6 @@ button, a {
   white-space: nowrap;
 }
 
-/* GENERAL */
 :root {
   font-size: 62.5%; /* reset 4 easier sizing w/out impacting text resize */
   --base-font: 'poppins';
@@ -102,18 +93,40 @@ body {
   padding: 0 var(--base-spacing);
 }
 
+ul, ol {
+  list-style-type: none;
+}
+
+button, a {
+  color: inherit;
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+}
+
+a.text {
+  text-decoration: underline;
+}
+
+a:focus-visible {
+  outline: 0.2rem solid var(--elem-border);
+  outline-offset: 0.2rem;
+  border-radius: 2%;
+}
+
 /* HEADER */
 /* Skip Link */
 .skip-link {
   position: absolute;
   left: 0;
   border: 0.3rem solid var(--elem-border);
-  border-radius: 0.3rem;
+  border-radius: 0.4rem;
   padding: calc(var(--base-spacing) * 0.45);
   background-color: var(--skip-bg);
   font-weight: bold;
   line-height: 1;
-  cursor: pointer;
   z-index: 3;
   transform: translateY(-100%);
   transition: transform 0.3s ease-in-out;
@@ -121,6 +134,10 @@ body {
 
 .skip-link:focus {
   transform: translateY(1rem);
+}
+
+.skip-link:focus-visible {
+  outline: none;
 }
 
 header {
@@ -149,15 +166,8 @@ header {
   border-radius: 50%;
 }
 
-.logo:hover, .logo a:focus {
-  outline: 0.1rem solid var(--elem-border);
-  outline-offset: 0.2rem;
-}
-
-/* removes focus styling for mouse users on browsers that support :focus-visible */
-.logo a:focus:not(:focus-visible) {
-  outline: none;
-  outline-offset: 0;
+.logo a:focus-visible {
+  border-radius: inherit;
 }
 
 /* Theme Switch */

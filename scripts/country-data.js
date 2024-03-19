@@ -45,7 +45,7 @@ function setBorderCountries(baseData, borderCountriesCode) {
   const borderCountriesLink = baseData.reduce((countriesLinkArray, country) => {
     if (borderCountriesCode.includes(country.cca3)) {
       countriesLinkArray.push(
-        `<a href=/details.html#${encodeURIComponent(country.name.common)}>${country.name.common}</a>`
+        `<a href=/details.html#${encodeURIComponent(country.name.common)} class="text">${country.name.common}</a>`
       );
     }
     return countriesLinkArray;
