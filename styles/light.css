@@ -10,13 +10,13 @@
 }
 
 /* custom properties aren't inherited by pseudo-elements */
-button.theme-toggle::before, button.theme-toggle::after, .toggle-ctrl::before, .toggle-ctrl {
+.toggle-ctrl::before, .toggle-ctrl {
   --dark-blue: hsl(207 26% 17%);
   --very-light-gray: hsl(0 0% 100% / 75%);
-  --switch-bg: var(--dark-blue);
-  --switch-border: var(--very-light-gray);
-  --switch-knob-bg: var(--very-light-gray);
-  --switch-knob-border: var(--dark-blue);
+  --toggle-bg: var(--dark-blue);
+  --toggle-border: var(--very-light-gray);
+  --toggle-knob-bg: var(--very-light-gray);
+  --toggle-knob-border: var(--dark-blue);
 }
 
 /* ensures custom properties cascade into svg from <use> */

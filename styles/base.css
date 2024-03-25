@@ -170,72 +170,56 @@ header {
   border-radius: inherit;
 }
 
-/* Theme Switch */
+/* Theme toggle */
 button.theme-toggle {
   order: -1;
   grid-row: 1 / 2;
   grid-column: 2 / -1;
   justify-self: end;
-  position: relative; /* for positioning pseudo-elements for styling */
   display: flex;
   align-items: center;
   gap: 0.2rem;
-  cursor: pointer;
+  outline: none;
 }
 
 /* custom properties aren't inherited by pseudo-elements */
-button.theme-toggle::before, button.theme-toggle::after, .toggle-ctrl::before, .toggle-ctrl {
-  --theme-toggle-size: 2.4rem;
+.toggle-ctrl::before, .toggle-ctrl {
+  --toggle-ctrl-size: 2.4rem;
 }
 
-/* button.theme-toggle::before for hover styling, button.theme-toggle::after for focus styling */
-[data-theme="light"] button.theme-toggle::before, [data-theme="light"] button.theme-toggle::after, [data-theme="light"] .toggle-ctrl::before, [data-theme="light"] .toggle-ctrl {
+[data-theme="light"] .toggle-ctrl::before, [data-theme="light"] .toggle-ctrl {
   --dark-blue: hsl(207 26% 17%);
   --very-light-gray: hsl(0 0% 100% / 75%);
-  --switch-bg: var(--dark-blue);
-  --switch-border: var(--very-light-gray);
-  --switch-knob-bg: var(--very-light-gray);
-  --switch-knob-border: var(--dark-blue);
+  --toggle-bg: var(--dark-blue);
+  --toggle-border: var(--very-light-gray);
+  --toggle-knob-bg: var(--very-light-gray);
+  --toggle-knob-border: var(--dark-blue);
 }
 
-[data-theme="dark"] button.theme-toggle::before, [data-theme="dark"] button.theme-toggle::after, [data-theme="dark"] .toggle-ctrl::before, [data-theme="dark"] .toggle-ctrl {
+[data-theme="dark"] .toggle-ctrl::before, [data-theme="dark"] .toggle-ctrl {
   --very-light-gray: hsl(0 0% 100% / 75%);
   --dark-gray: hsl(0 0% 40%);
-  --switch-bg: var(--very-light-gray);
-  --switch-border: var(--dark-gray);
-  --switch-knob-bg: var(--dark-gray);
-  --switch-knob-border: var(--very-light-gray);
-}
-
-/* allows for hover styling distinct from focus styling so focus-visible can be utilized in supporting browsers */
-button.theme-toggle::before, button.theme-toggle::after {
-  content: "";
-  position: absolute;
-  /* top and left of auto ensures button pseudo-elements fit over toggle control */
-  width: calc(var(--theme-toggle-size) * 2);
-  height: var(--theme-toggle-size);
-  border-radius: 10000000000000000px; /* hack to produce a perfect pill on rectangular elements */
-  border: 0.2rem solid transparent; /* for contrast themes */
-  z-index: 2;
-}
-
-button.theme-toggle:hover::before, button.theme-toggle:focus::after {
-  border: 0.5rem double var(--switch-border); 
-}
-
-/* ensures no focus styling from mouse click in browsers that support focus-visible, as hover styling is visible */
-button.theme-toggle:focus:not(:focus-visible)::after {
-  border: none;
+  --toggle-bg: var(--very-light-gray);
+  --toggle-border: var(--dark-gray);
+  --toggle-knob-bg: var(--dark-gray);
+  --toggle-knob-border: var(--very-light-gray);
 }
 
 .toggle-ctrl {
-  width: calc(var(--theme-toggle-size) * 2);
-  height: var(--theme-toggle-size);
+  width: calc(var(--toggle-ctrl-size) * 2);
+  height: var(--toggle-ctrl-size);
   flex: 1 0 auto; /* ensures toggle control never shrinks below its base width */
-  border-radius: 10000000000000000px;
-  background-color: var(--switch-bg);
+  outline: 0.2rem solid transparent; /* for contrast themes */
+  outline-offset: -0.2rem;
+  border-radius: 10000000000000000px; /* hack to produce a perfect pill on rectangular elements */
+  background-color: var(--toggle-bg);
   transition: background-color 0.4s ease-in-out;
   position: relative; /* for positioning toggle control knob */
+}
+
+button.theme-toggle:focus-visible .toggle-ctrl {
+  outline: 0.5rem double var(--toggle-border);
+  outline-offset: -0.5rem;
 }
 
 /* toggle control knob */
@@ -244,16 +228,16 @@ button.theme-toggle:focus:not(:focus-visible)::after {
   position: absolute;
   top: 0;
   left: 0;
-  width: var(--theme-toggle-size);
-  height: var(--theme-toggle-size);
-  background-color: var(--switch-knob-bg);
-  border: 0.5rem double var(--switch-knob-border);
+  width: var(--toggle-ctrl-size);
+  height: var(--toggle-ctrl-size);
+  background-color: var(--toggle-knob-bg);
+  border: 0.5rem double var(--toggle-knob-border);
   border-radius: 50%;
   z-index: 3;
 }
 
 button.theme-toggle[aria-pressed="true"] .toggle-ctrl::before {
-  transform: translateX(var(--theme-toggle-size));
+  transform: translateX(var(--toggle-ctrl-size));
   transition: transform 0.4s ease-in-out;
 }
 
