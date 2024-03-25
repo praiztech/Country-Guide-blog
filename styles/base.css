@@ -257,36 +257,21 @@ button.theme-toggle[aria-pressed="false"] .toggle-ctrl::before {
   border-radius: 10000000000000000px;
   padding: var(--search-widget-vertical-spacing) var(--search-widget-horizontal-spacing);
   display: flex;
-  align-items: center; /* to support WCAG 1.4.4 on a 320px viewport */
+  align-items: center;
 }
 
 .search-widget search-combobox {
-  flex: 1 1 0px;
+  flex: 1 1 0%;
 }
 
 .search-widget button[type="submit"] {
   width: var(--search-btn-size);
   height: var(--search-btn-size);
-  cursor: pointer;
-  position: relative; /* allows for positioning of ::after for hover styling */
+  border-radius: 2%;
 }
 
-/* allows for button hover styling distinct from focus styling so focus-visible can be utilized in supporting browsers */
-.search-widget button[type="submit"]::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.search-widget button[type="submit"]:hover::after, .search-widget button[type="submit"]:focus {
+.search-widget button[type="submit"]:focus-visible {
   outline: 0.2rem solid var(--search-focus);
-}
-
-.search-widget button[type="submit"]:focus:not(:focus-visible) {
-  outline: none;
 }
 
 .search-widget button[type="submit"] svg {

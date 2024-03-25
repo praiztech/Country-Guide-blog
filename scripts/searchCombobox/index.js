@@ -53,7 +53,7 @@ export class SearchCombobox extends HTMLElement {
       position: relative; /* allows positioning of input controls */
     }
     
-    .search-box:hover, .search-box:focus-within {
+    .search-box:focus-within {
       outline: 0.1rem solid var(--search-focus);
     }
     
@@ -97,11 +97,6 @@ export class SearchCombobox extends HTMLElement {
       height: var(--search-btn-size);
       color: inherit;
       cursor: pointer;
-    }
-
-    .input-controls button:hover {
-      outline: 0.1rem solid currentColor;
-      outline-offset: -0.5rem;
     }
     
     /* ensures custom properties cascade into svg from <use> */
