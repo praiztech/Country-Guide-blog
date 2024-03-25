@@ -20,6 +20,6 @@
   left: calc(100% - 0.2rem);
   width: 0.2rem;
   height: 100%;
-  background-color: currentColor;
+  border-left: 0.2rem solid currentColor;
   transform: rotate(15deg);
 }
