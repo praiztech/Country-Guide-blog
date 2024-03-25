@@ -85,6 +85,10 @@ body {
   font: var(--base-font-size)/1.5 var(--base-font, sans-serif);
 }
 
+[tabindex="-1"] {
+  outline: none; /* focus outline only visible on interactive controls */
+}
+
 .content {
   min-height: 100%;
   display: block;
