@@ -1,14 +1,16 @@
 /* FONT */
 @font-face {
-  font-family: 'poppins';
-  src: url('/fonts/Poppins-Regular.woff2') format('woff2');
+  font-family: "poppins";
+  src: url("/fonts/Poppins-Regular.woff2") format("woff2");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
 /* RESET */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   background: transparent;
   margin: 0;
@@ -19,7 +21,8 @@
 }
 
 /* GENERAL */
-[hidden] { /* ensures that page is only visible after content loading if css is disabled */
+[hidden] {
+  /* ensures that page is only visible after content loading if css is disabled */
   display: none !important;
 }
 
@@ -37,7 +40,7 @@
 
 :root {
   font-size: 62.5%; /* reset 4 easier sizing w/out impacting text resize */
-  --base-font: 'poppins';
+  --base-font: "poppins";
   --base-font-size: 1.6rem;
   --base-spacing: 1.25rem;
   --white: hsl(0 0% 99%);
@@ -63,6 +66,7 @@
   --search-focus: var(--light-blue);
   --search-bg: var(--white);
   --error-txt: var(--bright-red);
+  --flag-toggle: var(--gray);
 }
 
 :root[data-theme="dark"] {
@@ -74,15 +78,17 @@
   --search-focus: var(--very-light-gray);
   --search-bg: var(--dark-blue);
   --error-txt: var(--dusted-red);
+  --flag-toggle: var(--light-blue);
 }
 
-html, body {
+html,
+body {
   height: 100%; /* ensures page takes up full browser viewport but still works with zoom */
 }
 
 /* sets noscript text properties for when JavaScript is turned off */
 body {
-  font: var(--base-font-size)/1.5 var(--base-font, sans-serif);
+  font: var(--base-font-size) / 1.5 var(--base-font, sans-serif);
 }
 
 [tabindex="-1"] {
@@ -97,11 +103,13 @@ body {
   padding: 0 var(--base-spacing);
 }
 
-ul, ol {
+ul,
+ol {
   list-style-type: none;
 }
 
-button, a {
+button,
+a {
   color: inherit;
   cursor: pointer;
 }
@@ -124,9 +132,8 @@ a:focus-visible {
 /* Skip Link */
 .skip-link {
   position: absolute;
-  left: 0;
   border: 0.3rem solid var(--elem-border);
-  border-radius: 0.4rem;
+  border-radius: 0.5rem;
   padding: calc(var(--base-spacing) * 0.45);
   background-color: var(--skip-bg);
   font-weight: bold;
@@ -163,7 +170,8 @@ header {
   cursor: pointer;
 }
 
-.logo a, .logo img {
+.logo a,
+.logo img {
   display: inline-block;
   width: 100%;
   height: 100%;
@@ -187,11 +195,13 @@ button.theme-toggle {
 }
 
 /* custom properties aren't inherited by pseudo-elements */
-.toggle-ctrl::before, .toggle-ctrl {
+.toggle-ctrl::before,
+.toggle-ctrl {
   --toggle-ctrl-size: 2.4rem;
 }
 
-[data-theme="light"] .toggle-ctrl::before, [data-theme="light"] .toggle-ctrl {
+[data-theme="light"] .toggle-ctrl::before,
+[data-theme="light"] .toggle-ctrl {
   --dark-blue: hsl(207 26% 17%);
   --very-light-gray: hsl(0 0% 100% / 75%);
   --toggle-bg: var(--dark-blue);
@@ -200,7 +210,8 @@ button.theme-toggle {
   --toggle-knob-border: var(--dark-blue);
 }
 
-[data-theme="dark"] .toggle-ctrl::before, [data-theme="dark"] .toggle-ctrl {
+[data-theme="dark"] .toggle-ctrl::before,
+[data-theme="dark"] .toggle-ctrl {
   --very-light-gray: hsl(0 0% 100% / 75%);
   --dark-gray: hsl(0 0% 40%);
   --toggle-bg: var(--very-light-gray);
@@ -215,7 +226,7 @@ button.theme-toggle {
   flex: 1 0 auto; /* ensures toggle control never shrinks below its base width */
   outline: 0.2rem solid transparent; /* for contrast themes */
   outline-offset: -0.2rem;
-  border-radius: 10000000000000000px; /* hack to produce a perfect pill on rectangular elements */
+  border-radius: 10000000000000000px; /* hack to get a perfect pill */
   background-color: var(--toggle-bg);
   transition: background-color 0.4s ease-in-out;
   position: relative; /* for positioning toggle control knob */
@@ -259,7 +270,8 @@ button.theme-toggle[aria-pressed="false"] .toggle-ctrl::before {
   background-color: var(--elem-bg);
   border: 0.1rem solid var(--elem-border);
   border-radius: 10000000000000000px;
-  padding: var(--search-widget-vertical-spacing) var(--search-widget-horizontal-spacing);
+  padding: var(--search-widget-vertical-spacing)
+    var(--search-widget-horizontal-spacing);
   display: flex;
   align-items: center;
 }
@@ -315,7 +327,12 @@ small {
 @media screen and (min-width: 48em) {
   header {
     display: flex;
-    gap: 5%;
+    gap: 2%;
+    padding: var(--base-spacing) 0;
+  }
+
+  .logo {
+    --logo-size: 3rem;
   }
 
   .search-widget {
@@ -327,9 +344,25 @@ small {
   }
 }
 
+@media screen and (min-width: 64em) {
+  :root {
+    --base-font-size: 1.8rem;
+  }
+
+  header {
+    padding: calc(var(--base-spacing) * 1.4) 0;
+  }
+
+  .logo {
+    --logo-size: 3.2rem;
+  }
+}
+
 /* ACCESSIBILITY QUERIES */
 @media screen and (forced-colors: active) {
-  use.search-icon, [data-theme="light"] use.search-icon, [data-theme="dark"] use.search-icon {
+  use.search-icon,
+  [data-theme="light"] use.search-icon,
+  [data-theme="dark"] use.search-icon {
     --icon-bg-color: Canvas;
     --icon-color: CanvasText;
   }

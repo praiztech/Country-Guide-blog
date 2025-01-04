@@ -109,7 +109,7 @@
   }
 
   [aria-label="Pagination"] a {
-    --page-link-size: calc(var(--base-font-size) * 2);
+    --page-link-size: calc(var(--base-font-size) * 1.75);
   }
 }
 
@@ -120,10 +120,6 @@
 
   [aria-label="Pagination"] ul {
     gap: calc(var(--base-spacing) * 1.25);
-  }
-
-  [aria-label="Pagination"] a {
-    --page-link-size: calc(var(--base-font-size) * 2.5);
   }
 
   [aria-label="Pagination"] a:focus-visible {

@@ -7,10 +7,12 @@
   --search-focus: var(--very-light-gray);
   --search-bg: var(--dark-blue);
   --error-txt: var(--dusted-red);
+  --flag-toggle: var(--light-blue);
 }
 
 /* custom properties aren't inherited by pseudo-elements */
-.toggle-ctrl::before, .toggle-ctrl {
+.toggle-ctrl::before,
+.toggle-ctrl {
   --very-light-gray: hsl(0 0% 100% / 75%);
   --dark-gray: hsl(0 0% 40%);
   --toggle-bg: var(--very-light-gray);

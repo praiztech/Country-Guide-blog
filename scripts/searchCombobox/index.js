@@ -1,12 +1,22 @@
-import { hideClearButton, handleClearButtonVisibility, handlePointerDisplayClearButton, handleSearchLabelVisibility } from "./comboboxComponents/search-box.js";
-import { getSuggestionsListRef, closeSuggestionsList, handleSuggestionsListDisplay, handleSuggestionsListKeyDown } from "./comboboxComponents/suggestions/suggestions-list.js";
+import {
+  hideClearButton,
+  handleClearButtonVisibility,
+  handlePointerDisplayClearButton,
+  handleSearchLabelVisibility,
+} from "./comboboxComponents/search-box.js";
+import {
+  getSuggestionsListRef,
+  closeSuggestionsList,
+  handleSuggestionsListDisplay,
+  handleSuggestionsListKeyDown,
+} from "./comboboxComponents/suggestions/suggestions-list.js";
 
 export class SearchCombobox extends HTMLElement {
   constructor() {
     super();
-    this.attachShadow({mode: 'open'});
+    this.attachShadow({ mode: "open" });
 
-    const shadowStyles = document.createElement('style');
+    const shadowStyles = document.createElement("style");
     shadowStyles.textContent = `
     :host {
       position: relative; /* allows positioning of error text and suggestions list */
@@ -149,6 +159,8 @@ export class SearchCombobox extends HTMLElement {
       position: absolute;
       top: calc(100% + var(--search-widget-vertical-spacing));
       left: 0;
+      min-width: max-content;
+      width: 50vw;
       max-height: 70vh;
       background-color: var(--search-bg);
       border: 0.1rem solid var(--elem-border);
@@ -170,6 +182,12 @@ export class SearchCombobox extends HTMLElement {
       padding: calc(var(--search-widget-vertical-spacing) * 0.5) calc(var(--search-widget-horizontal-spacing) * 0.5);
       border-bottom: 0.1rem solid var(--elem-border);
     }
+
+    @media screen and (max-width: 23.375em) {
+      .suggestions [role="option"] {
+        font-size: var(--base-font-size);
+      }
+    }
     
     .suggestions [role="option"]:last-child {
       border-bottom: none;
@@ -185,25 +203,31 @@ export class SearchCombobox extends HTMLElement {
     }
     `;
 
-    const searchBox = document.createElement('div');
-    searchBox.classList.add('search-box');
+    const searchBox = document.createElement("div");
+    searchBox.classList.add("search-box");
 
-    const searchLabel = document.createElement('label');
-    searchLabel.setAttribute('for', 'combobox-input');
-    searchLabel.setAttribute('data-visible', 'true');
-    searchLabel.textContent = 'Search for a country';
+    const searchLabel = document.createElement("label");
+    searchLabel.setAttribute("for", "combobox-input");
+    searchLabel.setAttribute("data-visible", "true");
+    searchLabel.textContent = "Search for a country";
 
-    const inputBox = document.createElement('div');
-    inputBox.classList.add('input-controls');
-    inputBox.addEventListener('pointerenter', handlePointerDisplayClearButton);
-    inputBox.addEventListener('pointerleave', handlePointerDisplayClearButton);
-    inputBox.addEventListener('focusout', (evt) => { // handles combobox exit
+    const inputBox = document.createElement("div");
+    inputBox.classList.add("input-controls");
+    inputBox.addEventListener("pointerenter", handlePointerDisplayClearButton);
+    inputBox.addEventListener("pointerleave", handlePointerDisplayClearButton);
+    inputBox.addEventListener("focusout", (evt) => {
+      // handles combobox exit
       const target = evt.currentTarget;
       if (target.contains(evt.relatedTarget)) return;
-      const {firstElementChild: comboboxInput, lastElementChild: clearButton} = target;
-      const [suggestionsList, suggestionsListIsClosed] = getSuggestionsListRef(target);
-      !suggestionsListIsClosed && closeSuggestionsList(suggestionsList, comboboxInput);
-      !clearButton.hasAttribute('hidden') && hideClearButton(clearButton);
+      const {
+        firstElementChild: comboboxInput,
+        lastElementChild: clearButton,
+      } = target;
+      const [suggestionsList, suggestionsListIsClosed] =
+        getSuggestionsListRef(target);
+      !suggestionsListIsClosed &&
+        closeSuggestionsList(suggestionsList, comboboxInput);
+      !clearButton.hasAttribute("hidden") && hideClearButton(clearButton);
     });
     inputBox.innerHTML = `
       <input role="combobox" id="combobox-input" type="text" name="comboboxInput" aria-expanded="false" autocomplete="off" aria-autocomplete="list" spellcheck="false">
@@ -216,25 +240,32 @@ export class SearchCombobox extends HTMLElement {
       </button>
     `;
     const comboboxInput = inputBox.firstElementChild;
-    comboboxInput.addEventListener('focus', (evt) => {
+    comboboxInput.addEventListener("focus", (evt) => {
       const target = evt.target;
       // the side effects of clear btn focusing combobox input on search value removal is handled by mutation observer
       if (target.parentElement.contains(evt.relatedTarget)) return;
       handleClearButtonVisibility(target);
       // if aria-invalid is present, error txt is displayed instead
-      if (!target.hasAttribute('aria-invalid')) handleSuggestionsListDisplay(target);
+      if (!target.hasAttribute("aria-invalid"))
+        handleSuggestionsListDisplay(target);
     });
-    comboboxInput.addEventListener('input', (evt) => {
+    comboboxInput.addEventListener("input", (evt) => {
       const target = evt.target;
-      if (target.hasAttribute('aria-invalid')) { // triggers error txt removal
-        target.getRootNode().getElementById('error-txt').dispatchEvent(new CustomEvent('errordisplay', {
-          detail: 'none'
-        }));
+      if (target.hasAttribute("aria-invalid")) {
+        // triggers error txt removal
+        target
+          .getRootNode()
+          .getElementById("error-txt")
+          .dispatchEvent(
+            new CustomEvent("errordisplay", {
+              detail: "none",
+            })
+          );
       }
-      target.setAttribute('value', target.value); // triggers search value mutation observer
+      target.setAttribute("value", target.value); // triggers search value mutation observer
     });
-    
-    comboboxInput.addEventListener('keydown', (evt) => {
+
+    comboboxInput.addEventListener("keydown", (evt) => {
       // !evt.repeat to prevent multiple keydown handling on a long-key-press
       if (!evt.repeat) handleSuggestionsListKeyDown(evt);
     });
@@ -245,12 +276,17 @@ export class SearchCombobox extends HTMLElement {
       const mutationTarget = searchValueMutation.target;
       handleSearchLabelVisibility(mutationTarget);
       handleClearButtonVisibility(mutationTarget);
-      if (mutationTarget.hasAttribute('data-programmatic-value-mutation')) {
-        mutationTarget.removeAttribute('data-programmatic-value-mutation');
-        const [suggestionsList, ] = getSuggestionsListRef(mutationTarget);
+      if (mutationTarget.hasAttribute("data-programmatic-value-mutation")) {
+        mutationTarget.removeAttribute("data-programmatic-value-mutation");
+        const [suggestionsList] = getSuggestionsListRef(mutationTarget);
         closeSuggestionsList(suggestionsList, mutationTarget);
-        const {scrollWidth: mutationTargetScrollWidth, value: {length: valueLength}} = mutationTarget;
-        if (mutationTargetScrollWidth > mutationTarget.parentElement.clientWidth) {
+        const {
+          scrollWidth: mutationTargetScrollWidth,
+          value: { length: valueLength },
+        } = mutationTarget;
+        if (
+          mutationTargetScrollWidth > mutationTarget.parentElement.clientWidth
+        ) {
           // mutation target scrollWidth to ensure input's value is scrolled to the max
           mutationTarget.scrollLeft = mutationTargetScrollWidth;
         }
@@ -260,87 +296,101 @@ export class SearchCombobox extends HTMLElement {
       }
       mutationTarget.getRootNode().host.value = mutationTarget.value; // sets combobox value attribute to input's value
     });
-    searchValueObserver.observe(comboboxInput, {attributes: true, attributeFilter: ['value']});
+    searchValueObserver.observe(comboboxInput, {
+      attributes: true,
+      attributeFilter: ["value"],
+    });
 
     searchBox.append(...[searchLabel, inputBox]);
 
-    const errorText = document.createElement('p');
-    errorText.id = 'error-txt';
-    errorText.addEventListener('errordisplay', (evt) => {
+    const errorText = document.createElement("p");
+    errorText.id = "error-txt";
+    errorText.addEventListener("errordisplay", (evt) => {
       const target = evt.target;
       const shadowNode = target.getRootNode();
-      const comboboxInput = shadowNode.getElementById('combobox-input');
+      const comboboxInput = shadowNode.getElementById("combobox-input");
       const errorValue = evt.detail;
-      if (errorValue === 'none') {
-        target.classList.remove('display');
+      if (errorValue === "none") {
+        target.classList.remove("display");
         while (target.hasChildNodes()) target.lastChild.remove();
-        comboboxInput.removeAttribute('aria-invalid');
-        comboboxInput.removeAttribute('aria-describedby');
+        comboboxInput.removeAttribute("aria-invalid");
+        comboboxInput.removeAttribute("aria-describedby");
         shadowNode.host.error = errorValue;
       } else {
-        const hiddenErrorText = document.createElement('span');
-        hiddenErrorText.setAttribute('data-visually-hidden', 'true');
-        hiddenErrorText.textContent = 'Error! ';
-        const errorMsg = (
-          errorValue.length > 0 ? `No result found for: ${errorValue}` : `Enter a country's name to search`
-        );
+        const hiddenErrorText = document.createElement("span");
+        hiddenErrorText.setAttribute("data-visually-hidden", "true");
+        hiddenErrorText.textContent = "Error! ";
+        const errorMsg =
+          errorValue.length > 0
+            ? `No result found for: ${errorValue}`
+            : `Enter a country's name to search`;
         target.append(...[hiddenErrorText, errorMsg]);
-        target.classList.add('display');
-        comboboxInput.setAttribute('aria-invalid', 'true');
-        comboboxInput.setAttribute('aria-describedby', target.id);
+        target.classList.add("display");
+        comboboxInput.setAttribute("aria-invalid", "true");
+        comboboxInput.setAttribute("aria-describedby", target.id);
         comboboxInput.focus();
       }
     });
 
-    const suggestionsNotifier = document.createElement('span');
-    suggestionsNotifier.setAttribute('aria-live', 'polite');
-    suggestionsNotifier.setAttribute('aria-atomic', 'true');
-    suggestionsNotifier.setAttribute('data-visually-hidden', 'true');
-    suggestionsNotifier.addEventListener('announce', (evt) => {
+    const suggestionsNotifier = document.createElement("span");
+    suggestionsNotifier.setAttribute("aria-live", "polite");
+    suggestionsNotifier.setAttribute("aria-atomic", "true");
+    suggestionsNotifier.setAttribute("data-visually-hidden", "true");
+    suggestionsNotifier.addEventListener("announce", (evt) => {
       evt.target.textContent = evt.detail;
     });
 
-    const suggestionsWrapper = document.createElement('div');
-    suggestionsWrapper.classList.add('suggestions');
+    const suggestionsWrapper = document.createElement("div");
+    suggestionsWrapper.classList.add("suggestions");
     suggestionsWrapper.innerHTML = `
       <h2 id="suggestions-heading" aria-hidden="true">Suggestions</h2>
       <ol role="listbox" id="combobox-listbox" aria-labelledby="suggestions-heading"></ol>
     `;
-    suggestionsWrapper.setAttribute('hidden', 'hidden');
+    suggestionsWrapper.setAttribute("hidden", "hidden");
 
-    this.shadowRoot.append(...[shadowStyles, searchBox, errorText, suggestionsNotifier, suggestionsWrapper]);
+    this.shadowRoot.append(
+      ...[
+        shadowStyles,
+        searchBox,
+        errorText,
+        suggestionsNotifier,
+        suggestionsWrapper,
+      ]
+    );
   }
 
   // getter and setter keep combobox properties and attributes in sync
   set value(searchValue) {
-    this.setAttribute('value', searchValue);
+    this.setAttribute("value", searchValue);
   }
 
   get value() {
-    return this.getAttribute('value');
+    return this.getAttribute("value");
   }
 
   set error(errorValue) {
-    this.setAttribute('error', errorValue);
+    this.setAttribute("error", errorValue);
   }
 
   get error() {
-    return this.getAttribute('error');
+    return this.getAttribute("error");
   }
 
   connectedCallback() {
-    this.setAttribute('value', '');
-    this.setAttribute('error', 'none');
+    this.setAttribute("value", "");
+    this.setAttribute("error", "none");
   }
 
   static get observedAttributes() {
-    return ['error'];
+    return ["error"];
   }
 
   attributeChangedCallback(attr, _, newValue) {
-    if (newValue !== 'none') {
+    if (newValue !== "none") {
       // triggers error txt display
-      this.shadowRoot.getElementById('error-txt').dispatchEvent(new CustomEvent('errordisplay', {detail: newValue}));
+      this.shadowRoot
+        .getElementById("error-txt")
+        .dispatchEvent(new CustomEvent("errordisplay", { detail: newValue }));
     }
   }
 }

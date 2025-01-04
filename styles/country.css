@@ -1,11 +1,12 @@
 /* BREADCRUMB NAV */
 [aria-label="Breadcrumb"] ol {
   display: flex;
+  margin-left: 1rem;
   padding: var(--base-spacing) 0;
   line-height: 1;
 }
 
-[aria-label="Breadcrumb"] li+li {
+[aria-label="Breadcrumb"] li + li {
   padding-left: calc(var(--base-spacing) * 0.75);
 }
 
@@ -22,4 +23,85 @@
   height: 100%;
   border-left: 0.2rem solid currentColor;
   transform: rotate(15deg);
+}
+
+.country {
+  --max-img-width: 480px;
+  max-width: var(--max-img-width);
+  margin: auto;
+}
+
+.country img {
+  width: 100%;
+  height: auto;
+  border-radius: 1%;
+  object-fit: contain;
+}
+
+.flag-description {
+  margin-bottom: var(--base-spacing);
+}
+
+.description-toggle {
+  background-color: var(--flag-toggle);
+  border-radius: 0.4rem;
+  padding-right: 0.5rem;
+  display: flex;
+}
+
+.description-toggle:focus-visible {
+  outline: 0.2rem solid var(--elem-border);
+  outline-offset: 0.2rem;
+  border-radius: 2%;
+}
+
+.description-toggle svg {
+  width: calc(var(--base-font-size) * 1.5);
+  height: calc(var(--base-font-size) * 1.5);
+}
+
+.description-toggle svg use {
+  --icon-color: currentcolor;
+}
+
+.description-toggle[aria-expanded="false"] svg use {
+  --rotation-angle: 0;
+}
+
+.description-toggle[aria-expanded="true"] svg use {
+  --rotation-angle: 90deg;
+}
+
+.description-panel {
+  margin-top: 0.2rem;
+  border-bottom: 0.2rem dashed;
+}
+
+.description-toggle[aria-expanded="false"] + .description-panel {
+  display: none;
+}
+
+.description-toggle[aria-expanded="true"] + .description-panel {
+  display: block;
+}
+
+@media screen and (min-width: 48em) {
+  .country {
+    max-width: calc(var(--max-img-width) * 2);
+    display: flex;
+    align-items: flex-start;
+    gap: var(--base-spacing);
+  }
+
+  .country img {
+    max-width: var(--max-img-width);
+  }
+
+  .country-data {
+    flex: 1 1 0px; /* prevents flag image shrinking when flag description expands */
+  }
+
+  .flag-description {
+    margin-bottom: calc(var(--base-spacing) * 1.5);
+  }
 }

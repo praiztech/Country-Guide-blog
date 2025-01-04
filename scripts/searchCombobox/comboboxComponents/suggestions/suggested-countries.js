@@ -5,8 +5,12 @@ export function findCountrySuggestions(searchValue) {
    * otherwise, matched country names should include both country names with ascii and non-ascii characters
    * eg if search value is 'sa' include both 'são tomé and príncipe' and 'saudi arabia' in matched countries
    */
-  const searchValuehasNonAscii = [...searchValue].some((char) => char.codePointAt(0) > 127);
-  const collator = searchValuehasNonAscii ? Intl.Collator() : Intl.Collator('ro', {sensitivity: 'base'});
+  const searchValuehasNonAscii = [...searchValue].some(
+    (char) => char.codePointAt(0) > 127
+  );
+  const collator = searchValuehasNonAscii
+    ? Intl.Collator()
+    : Intl.Collator("ro", { sensitivity: "base" });
   const suggestedCountries = [];
   let matchStart = false;
 
@@ -15,7 +19,12 @@ export function findCountrySuggestions(searchValue) {
   for (const country of baseData) {
     const countryName = country.name.common;
     // collator.compare() instead of string.startswith() to account for non-ascii characters eg in são tomé and príncipe
-    if (collator.compare(searchValue, countryName.toLowerCase().slice(0, searchValue.length)) === 0) {
+    if (
+      collator.compare(
+        searchValue,
+        countryName.toLowerCase().slice(0, searchValue.length)
+      ) === 0
+    ) {
       suggestedCountries.push(countryName);
       if (!matchStart) matchStart = true; // first match
     } else {
