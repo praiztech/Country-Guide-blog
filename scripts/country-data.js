@@ -6,6 +6,11 @@ export function appendCountryData(baseData, countryData) {
           (dataPt) =>
             dataPt.name.common === decodeURIComponent(location.hash.slice(1))
         );
+  const countryBreadcrumbLink = document.querySelector(
+    'a[aria-current="page"]'
+  );
+  countryBreadcrumbLink.href = `/details.html#${country.name.common}`;
+  countryBreadcrumbLink.textContent = country.name.common;
   const countryDetails = document.createElement("article");
   countryDetails.innerHTML = `
     <h1 tabindex="-1">${country.name.common}</h1>
@@ -46,8 +51,6 @@ export function appendCountryData(baseData, countryData) {
       flagDescBtnClicked.setAttribute("aria-expanded", toggleFlagDesc);
     }
   });
-  document.querySelector('a[aria-current="page"]').textContent =
-    country.name.common;
   document.querySelector("main").append(countryDetails);
 }
 
